@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html  xmlns:th="http://www.thymeleaf.org" lang="en">
+<body>
+<div th:fragment="loadjs">
+    <!--引入jquery-->
+    <script th:src="@{/static/libs/jQuery/jquery-1.10.2.min.js}"></script>
+    <script th:src="@{/static/libs/jQuery/jquery.browser.js}"></script>
+    <script th:src="@{/static/libs/skin/skin.js}"></script>
+    <script th:src="@{/static/libs/bootstrap3.3.5/js/bootstrap.min.js}" type="text/javascript"></script>
+    <script th:src="@{/static/libs/bootstrap-select/js/bootstrap-select.js}" type="text/javascript"></script>
+    <script th:src="@{/static/libs/jquery-validation/jquery.validate.min.js}" type="text/javascript"></script>
+    <script th:src="@{/static/libs/bootstrap-wizard/jquery.bootstrap.wizard.min.js}" type="text/javascript"></script>
+    <script th:src="@{/static/libs/layer/layer.js}" type="text/javascript"></script>
+    <script th:src="@{/static/libs/jqueryScroll/jquery.nicescroll.js}" type="text/javascript"></script>
+    <script th:src="@{/static/libs/zTree-3.5/js/jquery.ztree.all-3.5.min.js}" type="text/javascript"></script>
+    <!--引入cropper-->
+    <script th:src="@{/static/libs/croper/cropbox.js}" type="text/javascript"></script>
+    <!--引入ztreemodal-->
+    <script th:src="@{/static/libs/zTree-3.5/ztreeModal.js}" type="text/javascript"></script>
+    <!--引入checkbox radio插件-->
+    <script th:src="@{/static/libs/iCheck/js/icheck.js}" type="text/javascript"></script>
+    <!--引入bootstrap 日期组件-->
+    <script th:src="@{/static/libs/bootstrap-datetimepicker/js/bootstrap-datetimepicker.js}" type="text/javascript"></script>
+    <!--引入bsTable-->
+    <script th:src="@{/static/libs/bootstrap-table/bootstrap-table.min.js}" type="text/javascript"></script>
+    <script th:src="@{/static/js/common/ajax.util.js}" type="text/javascript"></script>
+    <script th:src="@{/static/js/common/common_config.js}" type="text/javascript"></script>
+</div>
+</body>
+</html>

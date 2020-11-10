@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"  xmlns:th="http://www.thymeleaf.org" class="x-admin-sm"
+      layout:decorator="common/table_index">
+
+<div class="layui-inline layui-show-xs-block" layout:fragment="button">
+    <button class="layui-btn layui-btn-danger" id="delAll" type="button"><i class="layui-icon"></i>批量删除</button>
+    <button class="layui-btn" id="addButton" type="button"><i class="layui-icon"></i>添加</button>
+</div>
+
+<div layout:fragment="table">
+
+    <table class="layui-table" id="test" lay-filter="test"></table>
+
+    <script type="text/html" id="switchTpl" >
+        <input type = "checkbox" name = "status" value = "{{d.id}}" lay-skin = "switch"lay-text = "正常|禁用"  lay-filter = "statusDemo" checked />
+    </script>
+
+    <script type="text/html" id="optTpl" >
+        <a title="编辑" lay-event = "editTable" href="javascript:;">
+            <i class="layui-icon">&#xe642;</i>
+        </a>
+        <a title="删除" lay-event = "delTable"  href="javascript:;">
+            <i class="layui-icon">&#xe640;</i>
+        </a>
+    </script>
+</div>
+
+</html>
+<script type="text/javascript" src="static/admin/js/modules/user/user_index.js" th:src="@{/static/admin/js/modules/user/user_index.js}"></script>

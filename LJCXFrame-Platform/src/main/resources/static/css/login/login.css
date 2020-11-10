@@ -1,0 +1,227 @@
+*{margin:0;padding:0;box-sizing:border-box;}
+input{padding:0;margin:0;}
+ul,li{list-style: none;}
+img{vertical-align: top;}
+html{width:100%;height:100%;}
+body{overflow: hidden;width: 100%;height:100%;}
+.body-box{
+	width:100%;
+	height: 100%;
+	background: url(../../images/login/bg-pic.jpg) no-repeat center;
+	background-size: cover;
+	position: absolute;
+	z-index:5;
+}
+.main-content{
+	position: absolute;
+	top:0;
+	bottom:0;
+	left:0;
+	right:0;
+	display: table;
+	width:100%;
+	height:100%;
+}
+.main-innercon{
+	display: table-cell;
+	padding-top:8%;
+	text-align: center;
+}
+.z-box{
+	width:426px;
+	height:474px;
+	margin:0 auto;
+	position: relative;
+}
+.login-box{
+	z-index:6;
+	padding: 150px 40px 68px 40px;
+	position: absolute;
+	width:100%;
+	height:100%;
+	background: url(../../images/login/login_box.png) center 20px no-repeat rgba(27,27,27,.6);
+	overflow:hidden;
+}
+.login-input{
+	margin:20px 0;
+	width: 100%;
+	color: #fffefe;
+	height:46px;
+	background: rgba(27,27,27,.6);
+}
+.login-input .form-control{
+	width: 310px;
+	height: 46px;
+	padding:0px 0px 0px 10px;
+	border:none;
+	float: left;
+	line-height: 18px;
+	color: #fff;
+	box-shadow: none;
+	font-size: 14px;
+	background-color:transparent;
+}
+input:-webkit-autofill{
+	-webkit-text-fill-color: #ededed !important;
+	-webkit-box-shadow: 0 0 0px 1000px transparent  inset !important;
+	background-color:transparent;
+	background-image: none;
+	transition: background-color 50000s ease-in-out 0s; //背景色透明  生效时长  过渡效果  启用时延迟的时间
+}
+.login-input .form-control:focus{
+	box-shadow: none;
+}
+.switch-btn{
+	display: inline-block;
+	vertical-align: top;
+	position: relative;
+	margin-right: 20px;
+}
+.switch-box i{
+	display: block;
+	width:18px;
+	height:18px;
+	position: absolute;
+	background: url(../../images/login/switch-btn-off.png) left center no-repeat;
+}
+.switch-box.on i{
+	background: url(../../images/login/switch-btn-on.png) left center no-repeat;
+}
+.switch-box.on .switch-btn{
+}
+.login-input .login-ico{position: relative;}
+.login-ico:before{
+	content: '';
+	width:36px;
+	height:26px;
+	margin:10px 0px;
+	border-right: 1px solid rgba(188,188,188,.2);
+	display: inline-block;
+	background: url(../../images/login/login_user_icon.png) center no-repeat;
+	float: left;
+}
+.login-ico02:before{
+	content: '';
+	width:36px;
+	height:26px;
+	display: inline-block;
+	background: url(../../images/login/login_password_icon.png) center no-repeat;
+	float: left;
+}
+/*
+.login-ico01:before{background-position:2px 3px;}
+.login-ico02:before{background-position:-38px 3px;}
+*/
+
+.loginBtn{
+	width:100%;
+	padding:10px 12px;
+	font-size: 18px;
+	background: #00deff;
+	margin-top:30px;
+	border:none;
+}
+.loginBtn:hover{background: #00deff;opacity: .9;}
+.login-info{
+	margin-top:26px;
+	color: #bcbcbc;
+}
+.login-tips{
+	text-align: left;
+	font-size: 14px;
+	position: absolute;
+	z-index: 999;
+	top: 140px;
+	color: red;
+	font-weight: bold;
+	visibility: hidden;
+}
+.pull-right,.pull-right:hover{
+	color: #fff;
+}
+.footer{
+	text-align: center;
+	position: absolute;
+	bottom:20px;
+	width: 100%;
+	line-height: 30px;
+	font-family: '宋体';
+	font-size: 12px;
+	color: #dcdddd;
+	z-index: 10;
+}
+.code{
+	position: absolute;
+	right: 0px;
+	top: 75%;
+	z-index: 5;
+}
+.code a{
+	width: 60px;
+	height: 50px;
+	padding-top: 30px;
+	display: block;
+	border-radius: 5px;
+	background: url(../../images/login/icon-code.png) center top no-repeat rgba(27,27,27,.6);
+	color: #bcbcbc;
+	font-size: 12px;
+	text-align: center;
+	cursor: pointer;
+}
+.code a:hover{
+	color: #fff;
+	text-decoration: none;
+}
+.code a,.code img{
+	float: right;
+}
+.code img{
+	display: none;
+	width: 100px;
+	height: 100px;
+}
+.code a:hover+img{
+	display: block;
+}
+
+@media only screen and (min-width: 700px) and (max-width: 1200px) {
+	.main-innercon .logo,.z-box{transform: scale(.82); }
+	.z-box{z-index:5;}
+	.body-box{transform: scale(1); }
+	.main-innercon{padding-top:10%;}
+	.logo{padding-bottom:0px;}
+}
+@media only screen and (min-width: 1200px) and (max-width: 1300px) {
+	.main-innercon .logo,.z-box{transform: scale(.84); }
+	.z-box{z-index:5;}
+	.body-box{transform: scale(1); }
+	.main-innercon{padding-top:10%;}
+	.logo{padding-bottom:0px;}
+}
+@media only screen and (min-width: 1300px) and (max-width: 1400px) {
+	.main-innercon .logo,.z-box{transform: scale(.86); }
+	.z-box{z-index:5;}
+	.body-box{transform: scale(1); }
+	.main-innercon{padding-top:10%;}
+	.logo{padding-bottom:20px;}
+}
+@media only screen and (min-width: 1400px) and (max-width: 1500px) {
+	.main-innercon .logo,.z-box{transform: scale(.86); }
+	.z-box{z-index:5;}
+	.body-box{transform: scale(1); }
+	.main-innercon{padding-top:10%;}
+	.logo{padding-bottom:30px;}
+}
+@media only screen and (min-width: 1500px) and (max-width: 1600px) {
+	.main-innercon .logo,.z-box{transform: scale(.9); }
+	.z-box{z-index:5;}
+	.body-box{transform: scale(1); }
+	.main-innercon{padding-top:10%;}
+	.logo{padding-bottom:50px;}
+}
+@media only screen and (min-width: 1600px) and (max-width: 1700px) {
+	.main-innercon .logo,.z-box{transform: scale(.96); }
+	.body-box{transform: scale(1); }
+	.main-innercon{padding-top:10%;}
+	.logo{padding-bottom:50px;}
+}

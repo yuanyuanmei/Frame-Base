@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ljcx.user.dao.SysPermissionDao">
+
+    <resultMap id="BaseMap" type="com.ljcx.user.vo.PermsVo">
+        <!--        <result column="sys_perms_id" property="id" />-->
+        <!--        <collection property="child" ofType="SysPermissionBean" column="sys_perms_id" fetchType="lazy"-->
+        <!--                    select="com.ljcx.user.dao.SysPermissionDao.getPermissionsByParentId"/>-->
+    </resultMap>
+
+    <sql id="BaseColumns">
+        account_sys_permission.id as sys_perms_id,
+        account_sys_permission.name,
+        account_sys_permission.type,
+        account_sys_permission.parent_id,
+        account_sys_permission.url,
+        account_sys_permission.icon,
+        account_sys_permission.permission,
+        account_sys_permission.status,
+        account_sys_permission.memo,
+        account_sys_permission.sort,
+        account_sys_permission.create_time,
+        account_sys_permission.is_delete
+    </sql>
+
+    <sql id="SingleColumns">
+        id,name,type,parent_id,url,icon,permission,status,memo,sort,create_time,is_delete
+    </sql>
+
+    <select id="pageList" resultType="SysPermissionBean" parameterType="com.ljcx.user.dto.PermissionDto">
+        select
+        <include refid="SingleColumns" />
+        from account_sys_permission
+        <where>
+            <if test="item.key != null and item.key != '' ">
+                and LOCATE(#{item.key},name) > 0
+            </if>
+        </where>
+    </select>
+
+    <!--根据角色ID查询权限-->
+    <select id="getPermissionsByRoleId" resultType="SysPermissionBean" parameterType="java.lang.Integer">
+        select
+        <include refid="SingleColumns" />
+        from account_sys_permission
+        left join account_sys_role_permission on account_sys_permission.id = account_sys_role_permission.permission_id
+        <where>
+            account_sys_role_permission.role_id = #{roleId}
+        </where>
+    </select>
+
+    <!--根据用户ID查询权限-->
+    <select id="getPermissionsByUserId" resultType="SysPermissionBean" parameterType="java.lang.Long">
+        select distinct a.*
+        from account_sys_permission a
+        left join account_sys_role_permission b on a.id = b.permission_id
+        left join account_sys_role c on c.id = b.role_id
+        left join account_sys_role_user d on d.role_id = c.id
+        where d.user_id = #{userId}
+    </select>
+
+    <!--根据角色Id删除权限-->
+    <delete id="delPermissionsByRoleId" parameterType="java.lang.Integer">
+        delete from account_sys_role_permission where role_id = #{roleId}
+    </delete>
+
+    <!--查询权限列表-->
+    <select id="list" resultMap="BaseMap">
+        select <include refid="SingleColumns" />
+        from account_sys_permission
+    </select>
+</mapper>

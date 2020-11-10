@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="${package}.${moduleName}.dao.${className}Dao">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap id="BaseMap" type="${className}Bean">
+    </resultMap>
+
+    <sql id="BaseColumns">
+#foreach ($column in $columns)#if($column.columnName == 'id')$column.columnName #else ,$column.columnName #end #end
+    </sql>
+
+    <select id="pageList" resultType="${className}Bean" parameterType="${package}.${moduleName}.dto.${className}Dto">
+        select
+        <include refid="BaseColumns"/>
+        from ${tableName} a
+        <where>
+            <if test="item.key != null and item.key != '' ">
+                and LOCATE(#{item.key},a.name) > 0
+            </if>
+            and a.is_delete = 1
+        </where>
+    </select>
+</mapper>

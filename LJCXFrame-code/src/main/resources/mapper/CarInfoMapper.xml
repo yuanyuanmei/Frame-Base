@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ljcx.code.dao.CarInfoDao">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap id="BaseMap" type="com.ljcx.code.vo.CarInfoVo">
+    </resultMap>
+
+    <sql id="BaseColumns">
+        id   ,name  ,create_user   ,create_time  , is_delete
+    </sql>
+
+    <select id="pageList" resultMap="BaseMap" parameterType="com.ljcx.code.dto.CarInfoDto">
+        select
+        a.id,a.name,a.create_time,GROUP_CONCAT(DISTINCT c.name) team_name
+        from ljcx_car_info a
+        left join ljcx_team_relationship b on a.id = b.m_id and b.m_type = 2
+        left join ljcx_team_info c on c.id = b.team_id
+        <where>
+            <if test="item.key != null and item.key != '' ">
+                and LOCATE(#{item.key},a.name) > 0
+            </if>
+            <if test="item.teamId != null  and item.teamId > 0">
+                <if test="item.type == 'query'">
+                    and a.id in (select m_id from ljcx_team_relationship where team_id = #{item.teamId} and m_type = 2)
+                </if>
+                <if test="item.type == 'add'">
+                    and a.id not in (select m_id from ljcx_team_relationship where team_id = #{item.teamId} and m_type = 2)
+                </if>
+            </if>
+            and a.is_delete = 1
+        </where>
+        GROUP BY a.id
+    </select>
+
+    <select id="equipCarList" resultMap="BaseMap" parameterType="java.lang.Long">
+        select a.id   ,a.name  ,a.create_user   ,a.create_time
+        from ljcx_car_info a
+        where a.is_delete = 1
+        and a.id not in (select m_id from ljcx_team_relationship where m_type = 2)
+    </select>
+</mapper>

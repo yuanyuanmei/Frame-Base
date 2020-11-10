@@ -1,0 +1,112 @@
+/*[{
+  "name": "主页",
+  "id": "node2",
+  "children": [],
+  "url":"modules/dist/index.html",
+  "icon": "xe6d3"
+},{
+  "name": "系统管理",
+  "id": "node0",
+   "icon": "xe64f",
+  "children": [{
+    "id": "node0-0",
+    "name": "菜单管理",
+    "url": "modules/sysadmin/menu_index.html"
+  }]
+},{
+  "name": "用户管理",
+  "id": "node1",
+  "icon": "xe605",
+  "children": [{
+    "id": "node1-0",
+    "name": "用户管理",
+    "url": "modules/sysuser/user_index.html"
+  },{
+    "id": "node1-1",
+    "name": "权限管理",
+    "url": "modules/sysuser/right.html"
+  }]
+}]*/
+{
+  "msg": "success",
+  "menuList": [
+    {
+      "children": [],
+      "name": "主页",
+      "icon": null,
+      "id": "4dd20632204e4b2f8c62b4723029734b",
+      "url": "modules/dist/index.html"
+    },
+    {
+      "children": [
+        {
+          "name": "菜单管理",
+          "icon": null,
+          "id": "aa9b02737e594ad08e70278ff4cb1ee9",
+          "url": "modules/sys/sys_menu.html"
+        },
+        {
+          "name": "定时任务",
+          "icon": null,
+          "id": "2cd1c641ed8545e8804136ed8894156e",
+          "url": "modules/sys/task_index.html"
+        },
+        {
+          "name": "字典管理",
+          "icon": null,
+          "id": "5479b60ad2e241a0b0ab5b2aa55850d1",
+          "url": "modules/sys/dic_index.html"
+        },
+        {
+          "name": "日志管理",
+          "icon": null,
+          "id": "2be40454e97b451b9249aba4b3229f31",
+          "url": "modules/sys/log_index.html"
+        }
+      ],
+      "name": "系统管理",
+      "icon": null,
+      "id": "441e4cca5561407682a78cf0b117243a",
+      "url": null
+    },
+    {
+      "children": [
+        {
+          "name": "用户管理",
+          "icon": null,
+          "id": "877f4c24f2334ff8be70e071a9e11748",
+          "url": "modules/user/user_index.html"
+        },
+        {
+          "name": "角色管理",
+          "icon": null,
+          "id": "6e920bc8ffbf473bb3758fab2529edad",
+          "url": "modules/user/role_index.html"
+        },
+        {
+          "name": "机构管理",
+          "icon": null,
+          "id": "430bc2f8aa5a4c9b983a121b9bae6c98",
+          "url": "modules/user/org_index.html"
+        },
+        {
+          "name": "区域管理",
+          "icon": null,
+          "id": "c4655f796a294463b6f342343a191e9c",
+          "url": "modules/sys/area_index.html"
+        },
+        {
+          "name": "权限管理",
+          "icon": null,
+          "id": "200d5af1cde84cfdaf010137a6d88e42",
+          "url": "modules/user/right.html"
+        }
+      ],
+      "name": "用户管理",
+      "icon": "iconfont ico",
+      "id": "6b05128e928244a6894f3f551d867c79",
+      "url": null
+    }
+  ],
+  "code": 0
+}

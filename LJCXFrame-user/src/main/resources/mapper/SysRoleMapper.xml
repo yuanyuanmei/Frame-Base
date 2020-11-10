@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ljcx.user.dao.SysRoleDao">
+
+    <resultMap id="BaseMap" type="SysRoleBean">
+        <result column="sys_role_id" property="id" />
+        <!--column是数据库查询中的参数值，不一定是外键-->
+        <collection property="permissionBeans" ofType="SysPermissionBean" column="sys_role_id" fetchType="lazy"
+                    select="com.ljcx.user.dao.SysPermissionDao.getPermissionsByRoleId"/>
+    </resultMap>
+
+    <resultMap id="BaseVo" type="com.ljcx.user.vo.RoleVo">
+        <result column="sys_role_id" property="id" />
+        <!--column是数据库查询中的参数值，不一定是外键-->
+        <collection property="children" ofType="SysPermissionBean" column="sys_role_id" fetchType="lazy"
+                    select="com.ljcx.user.dao.SysPermissionDao.getPermissionsByRoleId"/>
+    </resultMap>
+
+    <sql id="BaseColumns">
+        account_sys_role.id as sys_role_id,
+        account_sys_role.name,
+        account_sys_role.memo,
+        account_sys_role.sort,
+        account_sys_role.create_time,
+        account_sys_role.update_time,
+        account_sys_role.is_delete
+    </sql>
+
+    <sql id="SingleColumns">
+        id,name,memo,sort,create_time,update_time,is_delete
+    </sql>
+
+    <select id="getRole" resultType="SysRoleBean" parameterType="java.lang.String">
+        select
+        <include refid="SingleColumns" />
+        from account_sys_role
+        <where>
+            name = #{name}
+        </where>
+    </select>
+
+    <select id="getRolesByUserId" resultMap="BaseMap" parameterType="java.lang.Long">
+        select
+        <include refid="BaseColumns" />
+        from account_sys_role
+        left join account_sys_role_user on account_sys_role.id = account_sys_role_user.role_id
+        <where>
+            account_sys_role_user.user_id = #{userId}
+            and account_sys_role.is_delete = 1
+        </where>
+    </select>
+
+    <select id="selectByPrimaryKey" resultMap="BaseMap" parameterType="java.lang.Integer">
+        select
+        <include refid="BaseColumns" />
+        from account_sys_role
+        where id = #{id}
+        and is_delete = 1
+    </select>
+
+    <select id="list" resultType="SysRoleBean" parameterType="com.ljcx.user.dto.RoleDto">
+        select
+        <include refid="SingleColumns" />
+        from account_sys_role
+        <where>
+            <if test="item.key != null and item.key != '' ">
+                and LOCATE(#{item.key},name) > 0
+            </if>
+            <if test="item.userId != null ">
+                and id in (select role_id from account_sys_role_user where user_id = #{item.userId})
+            </if>
+            and is_delete = 1
+        </where>
+        order by sort asc
+    </select>
+
+    <select id="listVo" resultMap="BaseVo" parameterType="com.ljcx.user.dto.RoleDto">
+        select
+        <include refid="BaseColumns" />
+        from account_sys_role
+        <where>
+            <if test="item.key != null and item.key != '' ">
+                and LOCATE(#{item.key},name) > 0
+            </if>
+            <if test="item.userId != null ">
+                and id in (select role_id from account_sys_role_user where user_id = #{item.userId})
+            </if>
+            and is_delete = 1
+        </where>
+        order by sort asc
+    </select>
+
+
+    <select id="userRoleList" resultType="com.ljcx.user.vo.RoleVo" parameterType="java.lang.Long">
+        select id,name,b.user_id isChecked
+        from account_sys_role a
+		left join account_sys_role_user b on a.id = b.role_id and b.user_id = #{userId}
+        where a.is_delete = 1
+    </select>
+
+    <insert id="saveUserRole">
+        insert into account_sys_role_user(user_id, role_id) values
+        <foreach collection="roleIds" item="roleId"
+                 separator=",">
+            (#{userId}, #{roleId})
+        </foreach>
+    </insert>
+
+    <insert id="saveRolePermission">
+        insert into account_sys_role_permission(role_id, permission_id) values
+        <foreach collection="permissionIds" item="permissionId"
+                 separator=",">
+            (#{roleId}, #{permissionId})
+        </foreach>
+    </insert>
+
+    <insert id="saveRoleUser">
+        insert into account_sys_role_user(user_id, role_id) values
+        <foreach collection="userIds" item="userId"
+                 separator=",">
+            (#{userId}, #{roleId})
+        </foreach>
+    </insert>
+
+    <delete id="delRoleUser">
+        delete from account_sys_role_user where role_id = #{roleId}
+        and user_id in
+        <foreach collection="userIds" item="userId"
+                 separator="," open="(" close=")">
+            #{userId}
+        </foreach>
+    </delete>
+
+    <delete id="delRolePermission" parameterType="java.lang.Integer">
+        delete from account_sys_role_permission where role_id = #{roleId}
+    </delete>
+
+    <delete id="delUserRole" parameterType="java.lang.Long">
+        delete from account_sys_role_user where user_id = #{userId}
+    </delete>
+
+
+
+</mapper>

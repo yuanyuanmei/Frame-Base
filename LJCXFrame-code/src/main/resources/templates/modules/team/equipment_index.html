@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"  xmlns:th="http://www.thymeleaf.org" class="x-admin-sm"
+      layout:decorator="common/table_index">
+    <div class="layui-fluid" layout:fragment="body">
+        <div class="layui-row layui-col-space15">
+            <!--团队列表-->
+            <div class="layui-col-md3">
+                <div class="eleTree ele1" lay-filter="data1" style="width: auto !important;padding: 10px"></div>
+            </div>
+
+            <div class="layui-col-md9">
+                <div class="layui-card">
+                    <!--条件区-->
+                    <div class="layui-card-body " layout:fragment="condition">
+<!--                        <form class="layui-form layui-col-space5">-->
+<!--                            &lt;!&ndash;下拉树菜单&ndash;&gt;-->
+<!--                            <div class="layui-inline layui-show-xs-block">-->
+<!--                                    <input type="text" id="tree" lay-filter="tree" class="layui-input">-->
+<!--                            </div>-->
+<!--                        </form>-->
+                        <span id="teamText">所有团队</span>
+                    </div>
+                    <!--按钮区-->
+                    <div class="layui-card-header" layout:fragment="button">
+                        <a class="layui-btn"  id="bindButton"> <i class="layui-icon"></i>绑定设备</a>
+                        <a class="layui-btn"  id="addMemberButton"> <i class="layui-icon"></i>添加成员</a>
+                    </div>
+
+                    <!-- 表格 -->
+                    <div class="layui-card-body ">
+                        <div layout:fragment="table">
+                            <div class="layui-tab layui-tab-brief" lay-filter="docDemoTabBrief">
+                                <ul class="layui-tab-title">
+                                    <li class="layui-this">无人机管理</li>
+                                    <li>指挥车管理</li>
+                                    <li>成员管理</li>
+                                </ul>
+                                <div class="layui-tab-content">
+                                    <div class="layui-tab-item layui-show">
+                                        <table class="layui-table" id="uav" lay-filter="uav"></table>
+                                        <script type="text/html" id="optTplUav" >
+                                            <a title="删除" lay-event = "removeUav" href="javascript:;">
+                                                <i class="layui-icon">&#xe640;</i>
+                                            </a>
+                                        </script>
+                                    </div>
+                                    <div class="layui-tab-item">
+                                        <table class="layui-table" id="car" lay-filter="car"></table>
+                                        <script type="text/html" id="optTplCar" >
+                                            <a title="删除" lay-event = "removeCar" href="javascript:;">
+                                                <i class="layui-icon">&#xe640;</i>
+                                            </a>
+                                        </script>
+                                    </div>
+                                    <div class="layui-tab-item">
+                                        <table class="layui-table" id="member" lay-filter="member"></table>
+                                        <script type="text/html" id="optTplMember" >
+                                            <a title="删除" lay-event = "removeMember" href="javascript:;">
+                                                <i class="layui-icon">&#xe640;</i>
+                                            </a>
+                                        </script>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</html>
+
+<script type="text/javascript" src="static/admin/js/modules/team/equipment_index.js" th:src="@{/static/admin/js/modules/team/equipment_index.js}"></script>
+<script type="text/javascript" src="static/admin/js/modules/user/user_index.js" th:src="@{/static/admin/js/modules/user/user_index.js}"></script>
+<script type="text/javascript" src="static/lib/layui/lay/mymodules/eleTree.js" th:src="@{/static/lib/layui/lay/mymodules/eleTree.js}"></script>

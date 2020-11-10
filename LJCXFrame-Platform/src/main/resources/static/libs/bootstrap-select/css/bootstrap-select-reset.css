@@ -1,0 +1,55 @@
+.bootstrap-select.btn-group .dropdown-toggle .caret{
+	transition: all .2s ease;
+}
+.bootstrap-select.btn-group.open .dropdown-toggle .caret{
+	position: absolute;
+    top: 50%;
+    right: 12px;
+    margin-top: -2px;
+    vertical-align: middle;
+    transform:rotate(180deg);
+    transition: all .2s ease;
+}
+.bootstrap-select:not([class*=col-]):not([class*=form-control]):not(.input-group-btn){
+	width:100%;
+}
+.btn-group.open .dropdown-toggle{
+	-webkit-box-shadow:none; 
+    box-shadow:none;
+}
+.btn-default:hover{
+	background: #ffffff;
+}
+.open > .dropdown-toggle.btn-default:hover,
+.btn-default:active:hover{
+	background: #ffffff;
+}
+.open>.dropdown-toggle.btn-default{
+	background: #ffffff;
+}
+.btn-default:active:focus,
+.open>.dropdown-toggle.btn-default:focus{
+	background-color: #ffffff;
+}
+.btn-default.focus, .btn-default:focus{
+	background: #ffffff;
+}
+.btn.active, .btn:active{
+	-webkit-box-shadow:none;
+	box-shadow: none;
+}
+.select-primary{
+	background: #FFFFFF;
+	border:1px #0e60be solid;
+}
+.bootstrap-select.btn-group .dropdown-toggle.select-primary .caret{
+	color:#0e60be;
+}
+.select-primary~.dropdown-menu{
+	border:1px #0e60be solid;
+}
+.select-primary~.dropdown-menu li>a:hover,
+.select-primary~.dropdown-menu li>a:focus{
+	background:#0e60be;
+	color:#fff;
+}

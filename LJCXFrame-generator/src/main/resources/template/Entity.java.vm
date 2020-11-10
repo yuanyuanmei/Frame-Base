@@ -1,0 +1,38 @@
+package ${package}.${moduleName}.beans;
+
+import com.baomidou.mybatisplus.annotation.TableName;
+import com.ljcx.common.base.BaseEntity;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
+
+#if(${hasBigDecimal})
+import java.math.BigDecimal;
+#end
+import java.util.Date;
+
+/**
+ * ${comments}
+ * 
+ * @author ${author}
+ * @date ${datetime}
+ */
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@ToString
+@TableName(value = "${tableName}")
+public class ${className}Bean extends BaseEntity<Long> {
+
+#foreach ($column in $columns)
+	#if($column.columnName != $pk.columnName)
+/**
+	 * $column.comments
+	 */
+	private $column.attrType $column.attrname;
+	#end
+
+#end
+
+}

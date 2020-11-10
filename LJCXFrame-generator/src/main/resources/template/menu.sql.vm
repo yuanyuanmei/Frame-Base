@@ -1,0 +1,16 @@
+-- 菜单SQL
+INSERT INTO `account_sys_permission` (`name`,`type`,`parent_id`,`url`,`icon`,`permission`,`status`,`memo`)
+VALUES ('${comments}', '1', '0', 'modules/${moduleName}/${pathName}.html', 'xe605', '', '1', '${comments}');
+-- 按钮父菜单ID
+set @parentId = @@identity;
+
+-- 菜单对应按钮SQL
+INSERT INTO `account_sys_permission` (`name`,`type`,`parent_id`,`url`,`icon`,`permission`,`status`,`memo`)
+VALUES ('${comments}添加', '2', @parentId, '', '', '${moduleName}:${pathName}:add', '1', '${comments}添加');
+INSERT INTO `account_sys_permission` (`name`,`type`,`parent_id`,`url`,`icon`,`permission`,`status`,`memo`)
+VALUES ('${comments}修改', '2', @parentId, '', '', '${moduleName}:${pathName}:update', '1', '${comments}修改');
+INSERT INTO `account_sys_permission` (`name`,`type`,`parent_id`,`url`,`icon`,`permission`,`status`,`memo`)
+VALUES ('${comments}删除', '2', @parentId, '', '', '${moduleName}:${pathName}:del', '1', '${comments}删除');
+INSERT INTO `account_sys_permission` (`name`,`type`,`parent_id`,`url`,`icon`,`permission`,`status`,`memo`)
+VALUES ('${comments}列表', '2', @parentId, '', '', '${moduleName}:${pathName}:query', '1', '${comments}列表');
+

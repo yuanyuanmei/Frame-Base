@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"  xmlns:th="http://www.thymeleaf.org" class="x-admin-sm"
+      layout:decorator="common/table_index">
+    <!--按钮区-->
+    <div class="" layout:fragment="button"></div>
+
+    <div layout:fragment="table">
+        <script type="text/javascript" src="static/admin/js/modules/task/list.js" th:src="@{/static/admin/js/modules/task/list.js}"></script>
+
+        <table class="layui-table" id="test" lay-filter="test"></table>
+
+        <script type="text/html" id="switchTpl" >
+            <input type = "checkbox" name = "completeStatus" value = "{{d.id}}" lay-skin = "switch"lay-text = "已完成|未完成"  lay-filter = "statusDemo" checked />
+        </script>
+
+    </div>
+</html>

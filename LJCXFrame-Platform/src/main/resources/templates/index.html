@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="common/head_ref::header('蓝天使')"></head>
+<body>
+<!-- 地图容器 全屏 -->
+<div class="g-map" id="2dmap"></div>
+
+<!-- 页面头部 -->
+<div class="head-wrapper">
+    <div class="head-left">
+        <!-- 标题 -->
+        <div class="head-title"></div>
+        <!-- 菜单 -->
+        <div class="head-menu" id="header-menu">
+            <ul>
+                <li class="active" data-item="team">团队管理</li>
+                <li data-item="task">任务管理</li>
+                <li data-item="im-message">实时消息</li>
+                <li data-item="message">现场上报</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- 团队切换 & 登录人员 -->
+    <div class="head-right">
+        <div class="head-team">
+            <!-- 团队选择下拉树 -->
+            <input type="text" id="team-selTree" lay-filter="tree" class="layui-input">
+        </div>
+        <div class="head-user" id="user-name-label">
+            <span>用户</span>
+            <div class="user-menu" style="display: none;">
+                <ul>
+<!--                    <li><a class="user-menu-edit">修改资料</a></li>-->
+                    <li><a id="logout" class="user-menu-logout">退出登录</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<!-- 左侧面板 -->
+<div class="wraper_left_box">
+    <!-- 团队面板 -->
+    <div class="left-panel" data-filter="team" id="team-panel" style="display: block;">
+        <div class="left-panel-title">
+            <ul data-item="all" id="deviceType">
+                <li class="active" data-item="all"><a class="all">所有</a></li>
+                <li class="" data-item="man"><a class="man">人</a></li>
+                <li class="" data-item="plane"><a class="plane">机</a></li>
+                <li class="" data-item="car"><a class="car">车</a></li>
+            </ul>
+        </div>
+        <div class="list_team_member">
+            <div id="team_members_list_online" class="online">
+            </div>
+            <div id="team_members_list_offline" class="offline">
+            </div>
+        </div>
+    </div>
+    <!-- 任务面板 -->
+    <div class="left-panel" data-filter="task" id="task-panel" style="display: none;">
+        <div class="left-panel-title">
+            <div class="left-panel-title-text">任务调度</div>
+        </div>
+        <a type="button" class="layui-btn layui-btn-normal fullbtn" id="addtask" style="position: relative;float: left;" onclick="saveTask()">
+            <span class="send-img fl"></span>
+            任务发布</a>
+        <div style="float: left; position: relative;margin: 10px 0px 8px 10px;">
+            <a class="search fr" id="search-label">
+                高级搜索
+            </a>
+        </div>
+        <!-- 任务筛选表单 -->
+        <form class="layui-form" action="" id="search-form" style="display: none;clear: both;">
+            <!-- style="display: none;clear: both;" -->
+            <div class="layui-form-item">
+                <div class="layui-input-inline">
+                    <input type="text" id="select_task" name="select_task" placeholder="请输入任务名称" autocomplete="off"
+                           class="layui-input">
+                    <button class="layui-btn" type="button" lay-submit="" id="searchBtn" data-type="getInfo" style="float: left;">搜索</button>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">任务类型</label>
+                <div class="layui-input-inline">
+                    <select name="search-taskType" id="search-taskType">
+                        <option value="" selected="selected">所有任务类型</option>
+                    </select>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">执行团队</label>
+                <div class="layui-input-inline">
+                     <input type="text" name="search-taskTeam" class="layui-input" id="search-taskTeam" readonly/>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">发布时间</label>
+                <div class="layui-input-inline">
+                    <input type="text" class="layui-input" id="search-createTime" placeholder=" - ">
+                    <div class="date-img fr"></div>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">任务状态</label>
+                <div class="layui-input-inline">
+                    <input type="radio" name="search-taskState" lay-skin="primary" title="全部" checked="" value="">
+                    <input type="radio" name="search-taskState" lay-skin="primary" title="已完成" value="1">
+                    <input type="radio" name="search-taskState" lay-skin="primary" title="未完成" value="0">
+                </div>
+            </div>
+        </form>
+        <!-- 任务列表 -->
+        <div id="task_list">
+        </div>
+    </div>
+    <!-- 实时消息 -->
+    <div class="left-panel" data-filter="im-message" id="im-message-panel" style="display: none;">
+        <div class="left-panel-title">
+            <div class="left-panel-title-text">实时消息</div>
+        </div>
+        <div class="infor-list">
+<!--            <div class="infor-col-l clearfix">-->
+<!--                <div class="infor-col2">-->
+<!--                    <span class="name">小王</span>-->
+<!--                    <span class="time">2019-12-20 12:00</span>-->
+<!--                </div>-->
+<!--                <div class="infor-col3 clearfix">-->
+<!--                    <p>到达目的地后立刻开始执行任务</p>-->
+<!--                </div>-->
+<!--            </div>-->
+        </div>
+        <div class="infor-write clearfix">
+            <textarea id="msgContent"></textarea>
+            <div class="msg-tools">
+<!--                <a onclick="selectPicClick()" title="选择图片"><img src="../static/images/file@2x.png"></a>-->
+                <input type="button" value="发送" id="sendMsgBtn" />
+            </div>
+        </div>
+    </div>
+    <!-- 现场上报 -->
+    <div class="left-panel" data-filter="message" id="message-panel" style="display: none;">
+        <div class="left-panel-title">
+            <div class="left-panel-title-text">现场上报</div>
+        </div>
+        <ul class="message-box-ul" id="message-box-ul">
+        </ul>
+    </div>
+</div>
+
+<!-- 全局工具栏 -->
+<div class="wraper_tools">
+    <ul>
+        <li class="fl" data-action="noFly"><a class="noFly">空域</a></li>
+        <li class="fl" data-action="layer"><a class="layer">图层</a></li>
+        <li class="fl" data-action="tools"><a class="tools">工具</a></li>
+    </ul>
+</div>
+
+<!-- 右侧视频面板 -->
+<div class="wraper_right_box">
+    <div class="video_list_box" id="live_list_box" style="height: 0px;">
+<!--        <div id="live_918111" class="live_">-->
+<!--            <div id="live_div_1" class="live_div_">-->
+<!--            </div>-->
+<!--            <div class="video-title">-->
+<!--                <span>无人机一</span>-->
+<!--                <a class="close"></a>-->
+<!--                <a class="fullscreen"></a>-->
+<!--            </div>-->
+<!--        </div>-->
+    </div>
+    <div class="video_list_box" id="video_list_box" style="display: none;">
+
+    </div>
+</div>
+<!-- 中下面板 -->
+<div class="wrapper_center_box">
+    <!-- 团队统计面板 -->
+    <div class="center_box_panel" style="display: block;" id="team_charts" data-filter="team">
+        <div class="box_panel_title" id="box_panel_teamTitle">团队统计</div>
+        <div class="box_panel_items">
+            <div class="panel_item" style="width: 270px;">
+                <div class="panel_item_title">状态</div>
+                <div class="panel_item_content" style="width: 100%;" id="plane-status-chart">
+                </div>
+            </div>
+            <div class="panel_item" style="width: 400px;">
+                <div class="panel_item_title">人机车</div>
+                <div class="panel_item_content" id="team-all-num" style="width: 25%;">全部</div>
+                <div class="panel_item_content" id="team-people-num" style="width: 25%;">人</div>
+                <div class="panel_item_content" id="team-plane-num" style="width: 25%;">机</div>
+                <div class="panel_item_content" id="team-car-num" style="width: 25%;">车</div>
+            </div>
+            <div class="panel_item" style="width: 100px;">
+                <div class="panel_item_title">在线率</div>
+                <div class="panel_item_content" id="team-online-num" style="width: 100%;">在线率图表</div>
+            </div>
+        </div>
+    </div>
+    <!-- 无人机设备动态统计面板 -->
+    <div class="center_box_panel" style="display: none;" id="team_plane" data-filter="plane_status">
+        <div class="box_panel_title"><span id="plan-panel-name">单兵无人机二号设备信息</span></div>
+        <div class="box_panel_items">
+            <div class="panel_item" style="width: 390px;">
+                <div class="panel_item_title"> 仪表盘 </div>
+                <div id="plane-gauge-chart">仪表盘</div>
+            </div>
+            <div class="panel_item" style="width: 110px;">
+                <div class="panel_item_title">电池健康</div>
+                <div class="panel_item_content" id="plane-battery" style="width: 115px;"></div>
+            </div>
+            <div class="panel_item" style="width: 280px;">
+                <div class="panel_item_title">飞行统计</div>
+                <div class="panel_item_content flex-center" style="width:280px;">
+                    <div class="panel-date">
+                        <div class="panel-date-title">
+                            飞行架次
+                        </div>
+                        <div><span id="plane-fly-count">145</span> <font>架次</font>
+                        </div>
+                    </div>
+                    <div class="panel-date">
+                        <div class="panel-date-title">
+                            飞行时长
+                        </div>
+                        <div id="plane-fly-time">0<font>时</font> 0 <font>分</font>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="center_box_panel" style="display: none;" id="task_plane" data-filter="task">
+        <div class="box_panel_title">任务统计</div>
+        <div class="box_panel_items">
+            <div class="panel_item" style="width:385px;">
+                <div class="panel_item_title">任务统计</div>
+                <div class="panel_item_content flex-center">
+                    <div class="panel-date">
+                        <div class="panel-date-title">
+                            完成任务数
+                        </div>
+                        <div><span id="plane-task-count">999</span><font>项</font>
+                        </div>
+                    </div>
+                    <div class="panel-date">
+                        <div class="panel-date-title">
+                            未完成任务数
+                        </div>
+                        <div><span id="plane-task-no-count">999</span> <font>项</font>
+                        </div>
+                    </div>
+                    <div class="panel-date">
+                        <div class="panel-date-title">
+                            总飞行时长
+                        </div>
+                        <div><span id="plane-task-fly-hours"></span> <font>时</font><!-- 55 <font>分</font>-->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="panel_item" style="width: 250px;">
+                <div class="panel_item_title">飞行时长分时统计</div>
+                <div class="panel_item_content" id="task-fly-time" style="width: 250px;">飞行时长分时统计</div>
+            </div>
+            <div class="panel_item" style="width: 150px;">
+                <div class="panel_item_title">任务类型统计</div>
+                <div class="panel_item_content" id="task-type" style="width:150px;">飞行时长分时统计</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 地图选择 -->
+<div class="map-b-box fr clearfix" id="map-dm">
+    <div class="map-b fr">
+        <img src="../static/images/right_map_button_img1.png">
+    </div>
+    <ul class="map-pic fr" style="display: none;" id="map-pic-dm">
+        <li class="fr">
+            <img src="../static/images/right_map_button_3d.png" data-layer="3d">
+            <p>三维</p>
+        </li>
+        <li class="fr">
+            <img src="../static/images/right_map_button_dem.png" data-layer="DOM1">
+            <p>地形</p>
+        </li>
+        <li class="fr">
+            <img src="../static/images/right_map_button_img1.png" data-layer="google">
+            <p>影像</p>
+        </li>
+        <li class="fr">
+            <img src="../static/images/right_map_button_img2.png" data-layer="vec">
+            <p>地图</p>
+        </li>
+    </ul>
+</div>
+
+<!-- 页面脚部 -->
+<footer>
+    <div class="footer-name fl">© 蓝疆创新（深圳）科技有限公司  <a href="http://www.beian.miit.gov.cn" target="_blank" style="color: #bcbcbc;"> （粤ICP备17036061号）</a></div>
+    <p id="p_postion">132.125469  34.125484</p>
+    <a id="foot-arrow" class="foot-arrow foot-up"></a>
+</footer>
+
+<!--禁飞区展开-->
+<ul class="ulNofly" id="div_nofly" style="display: none;">
+    <li>
+        <dl class="clearfix">
+            <ol class="fl"></ol>
+            <ol class="fl">禁飞区</ol>
+            <ol class="switch_off fr nofly_switch" data-nofly="1"></ol>
+        </dl>
+        <p>此区域在地图上显示为红色，飞行器将无法在此区域飞行。如您已获得有关部门在此区域的飞行许可，请在线申请解禁或者联系flysafe@dji.com申请解禁。</p>
+    </li>
+    <li>
+        <dl class="clearfix">
+            <ol class="fl"></ol>
+            <ol class="fl">限高区</ol>
+            <ol class="switch_off fr nofly_switch" data-nofly="2"></ol>
+        </dl>
+        <p>此区域在地图上显示为灰色。飞行器在此区域飞行时，飞行高度将受到限制。示例：机场附近的灰色区域@dji.com申请解禁。</p>
+    </li>
+    <li>
+        <dl class="clearfix">
+            <ol class="fl"></ol>
+            <ol class="fl">授权区</ol>
+            <ol class="switch_off fr nofly_switch" data-nofly="3"></ol>
+        </dl>
+        <p>在授权区，DJI GO 和DJI GO 4 App将以蓝色显示区域。当飞行于该区域时，系统将默认发送飞行警示以及飞行限制信息。已授权用户可使用 DJI 大疆认证账号解禁授权区的飞行限制。@dji.com申请解禁。</p>
+    </li>
+    <li>
+        <dl class="clearfix">
+            <ol class="fl"></ol>
+            <ol class="fl">警示区</ol>
+            <ol class="switch_off fr nofly_switch" data-nofly="4"></ol>
+        </dl>
+        <p>在警示区范围，DJI GO 的地图中未必显示全部的警示区。用户会在飞行至该区域时收到警示。（例如：自然保护区）</p>
+    </li>
+    <li>
+        <dl class="clearfix">
+            <ol class="fl"></ol>
+            <ol class="fl">加强警示区</ol>
+            <ol class="switch_off fr nofly_switch" data-nofly="5"></ol>
+        </dl>
+        <p>当飞行于加强警示区时，您会实时接收到来自GEO的信息，要求您解禁在该区域的飞行限制（步骤与授权区解禁相同），完成解禁步骤时无需提供认证的账户，也无需连接网络。</p>
+    </li>
+    <li>
+        <dl class="clearfix">
+            <ol class="fl"></ol>
+            <ol class="fl">法规限制区</ol>
+            <ol class="switch_off fr nofly_switch" data-nofly="6"></ol>
+        </dl>
+        <p>由于当地的法规和政策规定，部分特殊区域的所在范围内禁止飞行。（例如：监狱）</p>
+    </li>
+    <li>
+        <dl class="clearfix">
+            <ol class="fl"></ol>
+            <ol class="fl">推荐飞行</ol>
+            <ol class="switch_off fr nofly_switch" data-nofly="7"></ol>
+        </dl>
+        <p>此区域在地图上显示为绿色。建议您选择推荐区域进行飞行。</p>
+    </li>
+</ul>
+
+<!-- 自定义图层展开-->
+<div class="ulLayer" id="div_layer" style="display: none;">
+    <ul>
+    </ul>
+</div>
+
+<!-- 新增任务弹窗 -->
+<div style="display: none;" id="layer-addtask" target="test123">
+    <form class="layui-form" id="addtask-form" method="post" lay-filter="example">
+        <div class="layui-form-item">
+            <label class="layui-form-label">任务名称</label>
+            <div class="layui-input-inline">
+                <input type="text" id="add-taskname" name="taskname" lay-verify="required" autocomplete="off" placeholder="请输入任务名称"
+                       class="layui-input" maxlength="15">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">任务类型</label>
+            <div class="layui-input-inline">
+                <select name="taskType" id="add-taskType">
+                    <option value="" selected="selected">现场侦查</option>
+                </select>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">执行团队</label>
+            <div class="layui-input-inline">
+                <input type="text" class="layui-input" id="add-taskTeam" readonly/>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">任务简介</label>
+            <div class="layui-input-inline">
+                <textarea rows="5" placeholder="请输入任务简介"  id="add-taskmemo" maxlength="50"></textarea>
+            </div>
+        </div>
+    </form>
+</div>
+
+<!--弹窗-->
+<div class="pop-box" id="pop_box" style="display: none">
+    <p>
+        这是一条即将消失的消息!
+    </p>
+</div>
+
+<!--        {{if _plane.status == 1 }}-->
+<!--        <p class="plane-wrong" id="dy_state_{{= _plane.id}}">{{= _plane.flightName}}</p>-->
+<!--        {{else}}-->
+<!--        <p id="dy_state_{{= _plane.id}}"></p>
+{{/if}}-->
+<!--人员卡片模板文件-->
+<script id="tmpl_man" type="text/x-jquery-tmpl">
+{{each(i,_man) mans}}
+{{if _man.status==1}}
+<div class="team-member-card man-on" id="tmpl_man_{{= _man.id}}">
+{{else}}
+<div class="team-member-card man-off" id="tmpl_man_{{= _man.id}}">
+{{/if}}
+    <div class="content-li-text">
+        <div class="content-li-text-name">{{= _man.name}}</div>
+    </div>
+    <div class="content-li-tool">
+        {{if _man.status==1}}
+            {{if _man.position != 'NaN,NaN' && _man.position != '' }}
+            <a><img class="fl location" src="../static/images/list-position.png" data-location="{{= _man.position}}"></a>
+            {{else}}
+            <a><img class="fl location" src="../static/images/list-position-off.png"></a>
+            {{/if}}
+            {{if _man.inRoom == 0 }}
+            <a><img class="fr video" src="../static/images/list-video-on.png" data-userid="{{= _man.id}}"></a>
+            {{else}}
+            <a><img class="fr video" src="../static/images/list-video-play.png" data-userid="{{= _man.id}}"></a>
+            {{/if}}
+        {{else}}
+        <a><img class="fl location" src="../static/images/list-position-off.png"></a>
+        <a><img class="fr video" src="../static/images/list-video-off.png"></a>
+        {{/if}}
+    </div>
+</div>
+{{/each}}
+</script>
+
+<!-- 无人机卡片模板文件 -->
+<script id="tmpl_plane" type="text/x-jquery-tmpl">
+{{each(i,_plane) planes}}
+{{if _plane.status==1}}
+    <div class="team-member-card plane-on" id="tmpl_plane_{{= _plane.id}}" onclick="initPlanPanel(this)" data-plan-id="{{= _plane.id}}">
+        <div class="team-plane-info">
+            <div class="content-li-text">
+                <div class="content-li-text-name">{{= _plane.name}}</div>
+                <div class="content-li-text-info">{{= _plane.model}} </div>
+            </div>
+            <div class="content-li-tool">
+                    {{if _plane.position != 'NaN,NaN' && _plane.position != '' }}
+                    <a><img class="fl location" src="../static/images/list-position.png" data-location="{{= _plane.position}}"></a>
+                    {{else}}
+                    <a><img class="fl location" src="../static/images/list-position-off.png"></a>
+                    {{/if}}
+                    {{if _plane.action == 'play' }}
+                    <a><img class="fr video" src="../static/images/list-video-play.png" data-planeid="{{= _plane.id}}"></a>
+                    {{else}}
+                        {{if _plane.canLive == 0}}
+                        <a><img class="fr video" src="../static/images/list-video-off.png" data-planeid="{{= _plane.id}}"></a>
+                        {{else}}
+                        <a><img class="fr video" src="../static/images/list-video-on.png" data-planeid="{{= _plane.id}}"></a>
+                        {{/if}}
+                    {{/if}}
+            </div>
+        </div>
+        <div class="team-line"></div>
+
+        <ul class="content-li-data" id="dy_li_{{= _plane.id}}">
+            <li class="fl">
+                <span class="content-li-text-info">高度(m)</span>
+                <span class="content-li-text-data" id="dy_high_{{= _plane.id}}">{{= _plane.high}}</span>
+            </li>
+            <li class="fl">
+                <span class="content-li-text-info">速度(m/s)</span>
+                <span class="content-li-text-data" id="dy_speed_{{= _plane.id}}">{{= _plane.speed}}</span>
+            </li>
+            <li class="fl">
+                <span class="content-li-text-info">电量</span>
+                <span class="content-li-text-data" id="dy_elec_{{= _plane.id}}">{{= _plane.electricity}}</span>
+            </li>
+        </ul>
+        <div class="clear"></div>
+    </div>
+    {{else}}
+    <div class="team-member-card plane-off" id="tmpl_plane_{{= _plane.id}}" onclick="initPlanPanel(this)" data-plan-id="{{= _plane.id}}">
+            <div class="content-li-text">
+                <div class="content-li-text-name">{{= _plane.name}}</div>
+                <div class="content-li-text-info">{{= _plane.model}}</div>
+            </div>
+            <div class="content-li-tool">
+                <a><img class="fl location" src="../static/images/list-position-off.png"></a>
+                <a><img class="fr video" src="../static/images/list-video-off.png"></a>
+            </div>
+        </div>
+        <div class="clear"></div>
+    </div>
+    {{/if}}
+{{/each}}
+</script>
+
+<!-- 车辆卡片模板文件 -->
+<script id="tmpl_car" type="text/x-jquery-tmpl">
+{{each(i,_car) cars}}
+{{if _car.status==1}}
+<div class="team-member-card car-on" id="tmpl_car_{{= _car.id}}">
+{{else}}
+<div class="team-member-card car-off" id="tmpl_car_{{= _car.id}}">
+{{/if}}
+    <div class="content-li-text">
+        <div class="content-li-text-name">{{= _car.name}}</div>
+    </div>
+    <div class="content-li-tool">
+        {{if _car.status==1}}
+        <a><img class="fl location" src="../static/images/list-position.png"></a>
+        <a><img class="fr video" src="../static/images/list-video-on.png"></a>
+        {{else}}
+        <a><img class="fl location" src="../static/images/list-position-off.png"></a>
+        <a><img class="fr video" src="../static/images/list-video-off.png"></a>
+        {{/if}}
+    </div>
+</div>
+{{/each}}
+</script>
+
+<!-- 左现场上报面板内容 模板-->
+<script id="tmpl_message" type="text/x-jquery-tmpl">
+    {{each(i,_data) data}}
+    <li class="clear" data-ll="{{= _data.lat}},{{= _data.lat}}">
+        <dl class="clear">
+            <ol class="clear">
+                <span class="fl">{{= _data.nickname}}</span>
+                <span class="fr time">{{= _data.createTime}}</span>
+            </ol>
+            <ol class="clear"></ol>
+            <ol><p>{{= _data.content}}</p></ol>
+            <ol class="msg-image">
+                {{each(j,_file) _data.files}}
+                <div class="fl"><img src="{{= _file.url}}"></div>
+                {{/each}}
+            </ol>
+            <ol class="clear"></ol>
+            <ol class="address">{{= _data.address}}</ol>
+        </dl>
+    </li>
+    {{/each}}
+</script>
+
+
+
+<script src="https://imgcache.qq.com/open/qcloud/video/vcplayer/TcPlayer-2.3.2.js" charset="utf-8"></script>
+
+<script th:src="@{/static/libs/jQuery/jquery-1.10.2.min.js}" src="../static/libs/jQuery/jquery-1.10.2.min.js" ></script>
+<script th:src="@{/static/libs/jQuery/jquery.browser.js}" src="../static/libs/jQuery/jquery.browser.js"></script>
+<script th:src="@{/static/libs/jQuery/jquery.tmpl.min.js}" src="../static/libs/jQuery/jquery.tmpl.min.js"></script>
+<script th:src="@{/static/libs/layui/layui.js}" src="../static/libs/layui/layui.js" type="text/javascript"></script>
+
+<script th:src="@{/static/libs/jqueryScroll/jquery.nicescroll.js}" src="../static/libs/jqueryScroll/jquery.nicescroll.js" type="text/javascript"></script>
+<script th:src="@{/static/libs/echarts/echarts.min.js}" src="../static/libs/echarts/echarts.min.js" type="text/javascript" charset="utf-8"></script>
+<script th:src="@{/static/libs/echarts/simplex.js}" src="../static/libs/echarts/simplex.js" type="text/javascript" charset="utf-8"></script>
+
+<script th:src="@{/static/libs/TRTC/trtc.js}" src="../static/libs/TRTC/trtc.js" type="text/javascript" charset="utf-8"></script>
+<script th:src="@{/static/libs/TRTC/rtc-client.js}" src="../static/libs/TRTC/rtc-client.js" type="text/javascript" charset="utf-8"></script>
+
+<script th:src="@{/static/js/common/ajax.util.js}" src="../static/js/common/ajax.util.js" type="text/javascript"></script>
+
+
+<script th:src="@{/static/libs/ol6.0/ol.js}" src="../static/libs/ol6.0/ol.js" type="text/javascript" charset="utf-8"></script>
+<script th:src="@{/static/js/ol/olMap2D.js}" src="../static/js/ol/olMap2D.js" type="text/javascript" charset="utf-8"></script>
+
+<script th:src="@{/static/js/default/message.js}" src="../static/js/default/message.js" type="text/javascript" charset="utf-8"></script>
+<script th:src="@{/static/js/default/Media.js}" src="../static/js/default/Media.js" type="text/javascript" charset="utf-8"></script>
+<script th:src="@{/static/js/default/map.js}" src="../static/js/default/map.js" type="text/javascript" charset="utf-8"></script>
+<script th:src="@{/static/js/default/index.js}" src="../static/js/default/index.js" type="text/javascript" charset="utf-8"></script>
+
+<!-- im -->
+<script th:src="@{/static/js/default/im.js}" src="../static/js/default/im.js" type="text/javascript" charset="utf-8"  defer="defer"></script>
+<script th:src="@{/static/libs/im/base/json2.js}" src="../static/libs/im/base/json2.js" type="text/javascript" charset="utf-8" defer="defer"></script>
+<script th:src="@{/static/libs/im/base/webim.js}" src="../static/libs/im/base/webim.js" type="text/javascript" charset="utf-8" defer="defer"></script>
+<script th:src="@{/static/libs/im/msg/receive_new_msg.js}" src="../static/libs/im/msg/receive_new_msg.js" type="text/javascript" charset="utf-8" defer="defer"></script>
+<script th:src="@{/static/libs/im/msg/upload_and_send_pic_msg.js}" src="../static/libs/im/msg/upload_and_send_pic_msg.js" type="text/javascript" charset="utf-8" defer="defer"></script>
+<script th:src="@{/static/libs/im/msg/upload_and_send_file_msg.js}" src="../static/libs/im/msg/upload_and_send_file_msg.js" type="text/javascript" charset="utf-8" defer="defer"></script>
+<script th:src="@{/static/libs/im/md5/spark-md5.js}" src="../static/libs/im/md5/spark-md5.js" type="text/javascript" charset="utf-8" defer="defer"></script>
+<script type="text/javascript">
+
+    function _Fullscreen(){
+        /*判断是否全屏*/
+        var isFullscreen = document.fullScreenElement//W3C
+            ||document.msFullscreenElement //IE
+            ||document.mozFullScreenElement //火狐
+            ||document.webkitFullscreenElement //谷歌
+            ||false;
+        if(!isFullscreen){
+            var el = document.documentElement;
+            if (el.requestFullscreen) {
+                el.requestFullscreen();
+            } else if (el.mozRequestFullScreen) {
+                el.mozRequestFullScreen();
+            } else if (el.webkitRequestFullscreen) {
+                el.webkitRequestFullscreen();
+            } else if (el.msRequestFullscreen) {
+                el.msRequestFullscreen();
+            }
+        }else{
+            if (document.exitFullscreen) {
+                document.exitFullscreen();
+            } else if (document.msExitFullscreen) {
+                document.msExitFullscreen();
+            } else if (document.mozCancelFullScreen) {
+                document.mozCancelFullScreen();
+            } else if (document.webkitCancelFullScreen) {
+                document.webkitCancelFullScreen();
+            }
+        }
+    }
+
+    //检测flash是否加载 By hq
+    function flashChecker() {
+        var hasFlash = 0;         //是否安装了flash
+        var isIE = /*@cc_on!@*/0;      //是否IE浏览器
+        if (isIE) {
+            var swf = new ActiveXObject('ShockwaveFlash.ShockwaveFlash');
+            if (swf) {
+                hasFlash = 1;
+            }
+        } else {
+            if (navigator.plugins && navigator.plugins.length > 0) {
+                var swf = navigator.plugins["Shockwave Flash"];
+                if (swf) {
+                    hasFlash = 1;
+                }
+            }
+        }
+        return { f: hasFlash};
+    }
+
+    // web im 全局变量
+    var selToID = null;
+    var selType = webim.SESSION_TYPE.GROUP;
+    var selSess = null;
+    var groupHeadUrl = 'img/group.jpg'; //仅demo使用，用于没有设置过群头像的情况
+    //默认好友头像
+    var friendHeadUrl = 'img/friend.jpg'; //仅demo使用，用于没有设置过头像的好友
+
+</script>
+</body>
+</html>

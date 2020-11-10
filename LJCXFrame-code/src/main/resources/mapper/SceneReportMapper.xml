@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ljcx.code.dao.SceneReportDao">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap id="BaseMap" type="com.ljcx.code.vo.SceneReportVo">
+    </resultMap>
+
+    <sql id="BaseColumns">
+id      ,content   ,lng   ,lat   ,address   ,create_user   ,create_time   ,is_delete,team_id      </sql>
+
+    <select id="pageList" resultMap="BaseMap" parameterType="com.ljcx.code.dto.SceneReportDto">
+        select
+        a.id,a.content,a.lng,a.lat,a.address,a.create_user,b.nickname,a.create_time
+        from ljcx_scene_report a
+        left join account_user_base b on a.create_user = b.id
+        <where>
+            <if test="item.key != null and item.key != '' ">
+                and LOCATE(#{item.key},a.content) > 0
+            </if>
+            <!--添加权限-->
+            <if test="currentUser.type != 1" >
+                <if test="currentUser.id != null">
+                    and a.create_user in ( select m_id from ljcx_team_relationship where m_type = 3 and team_id
+                    in (select id from ljcx_team_info where user_id = #{currentUser.id}) )
+                </if>
+            </if>
+            and a.is_delete = 1
+        </where>
+    </select>
+</mapper>

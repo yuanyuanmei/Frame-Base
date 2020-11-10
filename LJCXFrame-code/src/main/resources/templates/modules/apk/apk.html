@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"  xmlns:th="http://www.thymeleaf.org" class="x-admin-sm"
+      layout:decorator="common/table_index">
+    <!--按钮区-->
+    <div class="" layout:fragment="button"></div>
+
+    <div layout:fragment="table">
+
+        <table class="layui-table" id="test" lay-filter="test"></table>
+
+        <script type="text/html" id="optTpl" >
+            <a title="编辑" lay-event = "editTable" href="javascript:;">
+                <i class="layui-icon">&#xe642;</i>
+            </a>
+        </script>
+    </div>
+</html>
+<script type="text/javascript" src="static/admin/js/modules/apk/apk_index.js" th:src="@{/static/admin/js/modules/apk/apk_index.js}"></script>

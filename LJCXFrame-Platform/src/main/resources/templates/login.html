@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,Chrome=1" />
+	<meta http-equiv="X-UA-Compatible" content="IE=9" />
+	<title>蓝天使-登录</title>
+	<link rel="stylesheet" type="text/css" th:href="@{/static/libs/bootstrap3.3.5/css/bootstrap.css}" href="../static/libs/bootstrap3.3.5/css/bootstrap.css"/>
+	<link rel="stylesheet" type="text/css" th:href="@{/static/css/login/login.css}" href="../static/css/login/login.css"/>
+</head>
+<body>
+<div class="main-content">
+	<div class="body-box"></div>
+	<div class="main-innercon">
+		<div class="z-box">
+			<div class="login-box">
+				<form class="clear">
+					<div class="login-tips">请输入账号密码。</div>
+					<div class="form-group login-input login-ico login-ico01">
+						<input type="text" class="form-control" id="username" placeholder="请输入账号" th:value="${username}" autocomplete="off" maxlength="20">
+						<input type="hidden" style="opacity:0" />
+					</div>
+					<div class="form-group login-input login-ico login-ico02">
+						<input type="password" class="form-control" id="userpwd" placeholder="请输入密码" value="" autocomplete="off" maxlength="20">
+					</div>
+					<div class="form-group login-info clear">
+						<div th:if="${username != null}" class="switch-box pull-left on"  id="switch" style="cursor:pointer">
+							<a class="switch-btn" ><i></i></a> 记住账号
+						</div>
+						<div th:if="${username == null}" class="switch-box pull-left"  id="switch" style="cursor:pointer">
+							<a class="switch-btn" ><i></i></a> 记住账号
+						</div>
+						<a class="pull-right" href="#this">忘记密码？</a>
+					</div>
+					<button type="button" class="btn btn-primary loginBtn" id="login">登 录</button>
+			</div>
+			</form>
+		</div>
+	</div>
+	<div class="code">
+		<a class="icon-code">APP下载</a>
+		<img src="../static/images/login/code.png">
+	</div>
+</div>
+<p class="footer">
+	蓝疆创新（深圳）科技有限公司 <a href="https://beian.miit.gov.cn/" target="_blank">（粤ICP备17036061号）</a><br/>
+	建议使用 <!--<a href="http://chrome.yscyxx.cn/" target="_blank"></a>-->Chrome(谷歌)、Internet Explorer8.0 及以上版本浏览器访问本系统！
+</p>
+</div>
+<script th:src="@{/static/libs/jQuery/jquery-1.10.2.min.js}" src="../static/libs/jQuery/jquery-1.10.2.min.js" type="text/javascript" charset="utf-8"></script>
+<script th:src="@{/static/js/login/login.js}" src="../static/js/login/login.js" type="text/javascript" charset="utf-8"></script>
+
+</body>
+</html>

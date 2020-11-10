@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" class="x-admin-sm" >
+<head th:include="common/head_ref::header('首页')"></head>
+    <body>
+        <div class="layui-fluid">
+            <div class="layui-row layui-col-space15">
+                <div class="layui-col-md12">
+                    <div class="layui-card">
+                        <div class="layui-card-body ">
+                            <blockquote class="layui-elem-quote">欢迎管理员：
+                                <span class="x-red" th:text="${user.nickname}">test</span>！当前时间:2018-04-25 20:50:53
+                            </blockquote>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-md12">
+                    <div class="layui-card">
+                        <div class="layui-card-header">数据统计</div>
+                        <div class="layui-card-body ">
+                            <ul class="layui-row layui-col-space10 layui-this x-admin-carousel x-admin-backlog">
+                                <li class="layui-col-md2 layui-col-xs6">
+                                    <a href="javascript:;" class="x-admin-backlog-body">
+                                        <h3>团队数量</h3>
+                                        <p>
+                                            <cite th:text="${teamCount}">66</cite></p>
+                                    </a>
+                                </li>
+                                <li class="layui-col-md2 layui-col-xs6">
+                                    <a href="javascript:;" class="x-admin-backlog-body">
+                                        <h3>无人机数量</h3>
+                                        <p>
+                                            <cite th:text="${equmentCountMap[1] == null ? 0 : equmentCountMap[1][0].count}">12</cite></p>
+                                    </a>
+                                </li>
+                                <li class="layui-col-md2 layui-col-xs6">
+                                    <a href="javascript:;" class="x-admin-backlog-body">
+                                        <h3>飞手数量</h3>
+                                        <p>
+                                            <cite th:text="${equmentCountMap[2] == null ? 0 : equmentCountMap[2][0].count}">99</cite></p>
+                                    </a>
+                                </li>
+                                <li class="layui-col-md2 layui-col-xs6">
+                                    <a href="javascript:;" class="x-admin-backlog-body">
+                                        <h3>车辆数量</h3>
+                                        <p>
+                                            <cite th:text="${equmentCountMap[3] == null ? 0 : equmentCountMap[3][0].count}">67</cite></p>
+                                    </a>
+                                </li>
+                                <li class="layui-col-md2 layui-col-xs6">
+                                    <a href="javascript:;" class="x-admin-backlog-body">
+                                        <h3>任务数量</h3>
+                                        <p>
+                                            <cite th:text="${taskCount}">67</cite></p>
+                                    </a>
+                                </li>
+
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        </div>
+
+        <th:block th:include="common/loadjs :: loadjs" />
+
+    </body>
+</html>

@@ -1,0 +1,89 @@
+<nav class="navbar navbar-default" data-item='yellow'>
+			<div class="container-fluid">
+				<div class="navbar-minimize" style="display:none">
+					<button id="minimizeSidebar" class="btn btn-warning btn-fill btn-round btn-icon">
+						<i class="fa fa-ellipsis-v visible-on-sidebar-regular"></i>
+						<i class="fa fa-navicon visible-on-sidebar-mini"></i>
+					</button>
+				</div>
+				<div class="navbar-header">
+					<button type="button" class="navbar-toggle" data-toggle="collapse">
+						<span class="sr-only">Toggle navigation</span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+					</button>
+				</div>
+				<div class="collapse navbar-collapse">
+					<div class="navbar-left nav-margin">
+						<img src="images/logo.png"/>
+					</div>
+					<ul class="nav navbar-nav navbar-right">
+						<li>
+							<a href="#this" class="no">
+								<i class="pe-7s-users" style="font-size:22px;vertical-align: top;"></i>
+								<p>欢迎 管理员01</p>
+							</a>
+						</li>
+						<li class="dropdown dropdown-with-icons" id="rightInfo">
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown" style="padding-top:14px;">
+								<i class="fa fa-list"></i>
+								<p class="hidden-md hidden-lg">
+									More
+									<b class="caret"></b>
+								</p>
+							</a>
+							<ul class="dropdown-menu dropdown-with-icons">
+								<li>
+									<a href="#">
+										<i class="pe-7s-unlock"></i> 修改密码
+									</a>
+								</li>
+								<li>
+									<a href="#">
+										<i class="pe-7s-user"></i> 更改用户
+									</a>
+								</li>
+								<li>
+									<a href="#">
+										<i class="pe-7s-angle-right-circle"></i> 注销
+									</a>
+								</li>
+								<li class="divider"></li>
+								<!--<li>
+									<a href="#">
+										<i class="pe-7s-lock"></i> 退出
+									</a>
+								</li>-->
+								<li class="skin" id="skinBox" data-stoppropagation = true>
+									<a href="javascript:void(0);" class="a-text">
+										<i class="ico iconfont">&#xe66d;</i>
+										换肤
+									</a>
+									<div class="skinMenu fixed-plugin">
+										<div class="skinMenu-inner">
+											<p class="tc" style="margin-bottom:12px;">选择颜色</p>
+											<a href="javascript:void(0)" class="switch-trigger">
+							                    <div id="switchSkin">
+							                        <span class="badge filter" data-color="black"></span>
+							                        <span class="badge filter badge-blue" data-color="blue"></span>
+							                        <span class="badge filter badge-green" data-color="green"></span>
+							                        <span class="badge filter badge-yellow active" data-color="yellow"></span>
+							                    </div>
+							                    <div class="clearfix"></div>
+							                </a>
+										</div>
+									</div>
+								</li>
+								<li>
+									<a href="#">
+										<i class="pe-7s-power"></i>退出
+									</a>
+								</li>
+							</ul>
+						</li>
+
+					</ul>
+				</div>
+			</div>
+		</nav>

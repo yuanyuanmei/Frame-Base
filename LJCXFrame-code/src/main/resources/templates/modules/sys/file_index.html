@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"  xmlns:th="http://www.thymeleaf.org" class="x-admin-sm"
+      layout:decorator="common/table_index">
+    <!--按钮区-->
+    <div class="layui-inline layui-show-xs-block" layout:fragment="button">
+        <button class="layui-btn"  id="upload" type="button">
+            <i class="layui-icon">&#xe67c;</i>上传文件
+        </button>
+    </div>
+
+    <!--表格区-->
+    <div class="layui-card-body " layout:fragment="table">
+        <table class="layui-table" id="test" lay-filter="test"></table>
+        <script type="text/html" id="optTpl" >
+            <a title="下载" lay-event = "downLoad" href="javascript:;">
+                <i class="layui-icon">&#xe601;</i>
+            </a>
+        </script>
+    </div>
+</html>
+<script type="text/javascript" src="static/admin/js/modules/sys/file_index.js" th:src="@{/static/admin/js/modules/sys/file_index.js}"></script>

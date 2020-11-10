@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
+  <title>倾斜模型</title>
+  <link href="../static/libs/Cesium/Widgets/widgets.css" rel="stylesheet">
+
+  <script src="../static/libs/jQuery/jquery-1.10.2.min.js"></script>
+  <script src="../static/libs/Cesium/Cesium.js"></script>
+  <script src="../static/js/SuperMap3D/MapGD3D.js"></script>
+
+</head>
+<body >
+<div id="cesiumContainer"></div>
+<div id='loadingbar' class="spinner">
+  <div class="spinner-container container1">
+    <div class="circle1"></div>
+    <div class="circle2"></div>
+    <div class="circle3"></div>
+    <div class="circle4"></div>
+  </div>
+  <div class="spinner-container container2">
+    <div class="circle1"></div>
+    <div class="circle2"></div>
+    <div class="circle3"></div>
+    <div class="circle4"></div>
+  </div>
+  <div class="spinner-container container3">
+    <div class="circle1"></div>
+    <div class="circle2"></div>
+    <div class="circle3"></div>
+    <div class="circle4"></div>
+  </div>
+</div>
+
+<script type="text/javascript">
+  MapSP3D.create3DMap('cesiumContainer');
+</script>
+</body>
+</html>

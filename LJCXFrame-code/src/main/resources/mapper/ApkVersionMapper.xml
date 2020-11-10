@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ljcx.code.dao.ApkVersionDao">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap id="BaseMap" type="com.ljcx.code.vo.ApkVersionVo">
+    </resultMap>
+
+    <sql id="BaseColumns">
+id   ,version_name   ,version_code   ,apk_name   ,is_force_update   ,memo   ,create_time   ,modify_time   ,app_key      </sql>
+
+    <select id="pageList" resultType="ApkVersionBean" parameterType="com.ljcx.code.dto.ApkVersionDto">
+        select
+        <include refid="BaseColumns"/>
+        from ljcx_apk_version a
+        <where>
+            <if test="item.key != null and item.key != '' ">
+                and LOCATE(#{item.key},a.version_name) > 0
+            </if>
+        </where>
+    </select>
+
+    <select id="info" resultMap="BaseMap">
+        select
+        a.id,a.version_name,a.version_code,a.apk_name,a.is_force_update,a.memo,a.app_key,a.create_time,a.modify_time
+        ,(select url from sys_file where m_id = a.id and m_src = 'APK' order by id desc limit 1 ) file_path
+        from ljcx_apk_version a
+        limit 1
+    </select>
+
+</mapper>

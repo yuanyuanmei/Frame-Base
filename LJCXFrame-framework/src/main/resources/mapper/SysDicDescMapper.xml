@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ljcx.framework.sys.dao.SysDicDescDao">
+
+    <resultMap id="BaseMap" type="SysDicDescBean">
+
+    </resultMap>
+
+    <sql id="BaseColumns">
+        seq,id,code,name,memo,sort,create_time,create_user
+    </sql>
+
+    <select id="pageList" resultMap="BaseMap" parameterType="com.ljcx.framework.sys.dto.SysDicDto">
+        select
+        <include refid="BaseColumns" />
+        from sys_dic_desc
+        <where>
+            <if test="item.key != null and item.key != '' ">
+                and LOCATE(#{item.key},name) > 0
+            </if>
+            <if test="item.code != null and item.code != ''">
+                and code = #{item.code}
+            </if>
+        </where>
+    </select>
+
+    <update id="updateByCode">
+        update sys_dic_desc set code = #{newCode} where code = #{oldCode}
+    </update>
+
+</mapper>

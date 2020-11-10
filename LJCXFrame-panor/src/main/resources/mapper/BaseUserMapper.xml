@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ljcx.panor.dao.BaseUserDao">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap id="BaseMap" type="BaseUserBean">
+    </resultMap>
+
+    <sql id="BaseColumns">
+ user_id   ,user_account   ,user_pwd   ,salt   ,user_name   ,user_moce   ,user_admin   ,user_state   ,createdate   ,last_time      </sql>
+
+    <select id="pageList" resultType="BaseUserBean" parameterType="com.ljcx.panor.dto.BaseUserDto">
+        select
+        <include refid="BaseColumns"/>
+        from base_user a
+        <where>
+            <if test="item.key != null and item.key != '' ">
+                and LOCATE(#{item.key},a.name) > 0
+            </if>
+        </where>
+    </select>
+</mapper>

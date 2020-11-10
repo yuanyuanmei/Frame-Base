@@ -1,0 +1,113 @@
+
+
+.timelineMain {
+    margin-left: 12px;
+    float: left;
+    position: relative;
+    cursor: pointer;
+}
+.timeHourFirst {
+    border-bottom-left-radius: 3px;
+    border-top-left-radius: 3px;
+}
+.timeHourFinal {
+    border-bottom-right-radius: 3px;
+    border-top-right-radius: 3px;
+    border-right: 1px solid #a3a3a4;
+}
+.timeHour {
+    position: relative;
+    height: 6px;
+    border-bottom: 1px solid #0d575c;
+    border-top: 1px solid #0d575c;
+    border-left: 1px solid #a3a3a4;
+    float: left;
+    margin-top: 22px;
+    background-color: #0d575c;
+}
+.timeNumber {
+    float: left;
+    margin: 8px 0px 0px -4px;
+    height: 15px;
+    width: 15px;
+    font-size: 15px;
+    color: #46becc;
+    font-weight:normal;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+.timeHour .last{
+	margin-right: -8px;
+    float: right;
+}
+.timelineProgress {
+    background-image: url(../images/progress.png);
+    height: 18px;
+    width: 18px;
+    position: absolute;
+    cursor: pointer;
+    top: 15px;
+    background-position: center;
+    background-repeat: no-repeat;
+    z-index: 10;
+    margin-left: -9px;
+}
+.runPart {
+    background-color: #e7e226;
+    height: 6px;
+    top: 22px;
+    position: absolute;
+    border: 1px solid #e7e226;
+}
+
+/*******/
+.dateSlider{
+	height:40px;
+	margin-top:0!important;
+	/* margin-left:30px; */
+	position:absolute;
+	/* right:50px; */
+	background:#061d42;
+	border-radius:5px;
+	min-height:55px!important;
+	bottom:50px;
+    left:100px;
+	box-shadow:10px 10px 25px rgba(0,0,0,.3);
+	padding-left:65px;
+}
+.dp-timelineMain{
+}
+.playbox{
+	position:absolute;
+	left:-55px;
+	top:8px;
+	cursor:pointer;
+}
+.playbox .icons{
+	position:relative;
+	width:40px;
+	height:40px;
+	border:1px #1a6fcc solid;
+	border-radius:50%;
+	display:block;
+	text-align:center;
+	line-height:42px;
+}
+.playbox .icons:before{
+	content:'\e6a3';
+	color:#1a6fcc;
+	font-size:18px;
+	position:absolute;
+	left:50%;
+	margin-left:-7px;
+}
+.playbox.play .icons:before{
+	content:'\e624';
+	color:#1a6fcc;
+	font-size:18px;
+	position:absolute;
+	left:50%;
+	margin-left:-8px;
+}

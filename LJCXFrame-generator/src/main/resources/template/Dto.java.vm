@@ -1,0 +1,29 @@
+package ${package}.${moduleName}.dto;
+
+import com.ljcx.common.utils.PageDto;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import javax.validation.constraints.NotNull;
+import java.util.List;
+
+
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@NotNull(message = "${comments}信息不能为空")
+public class ${className}Dto extends PageDto {
+
+	#foreach ($column in $columns)
+/**
+	 * $column.comments
+	 */
+	private $column.attrType $column.attrname;
+	#end
+
+	/**
+ 	* id集合
+ 	*/
+	private List<Long> ids;
+}

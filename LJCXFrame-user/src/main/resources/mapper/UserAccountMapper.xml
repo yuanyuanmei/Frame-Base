@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ljcx.user.dao.UserAccountDao">
+
+    <resultMap id="BaseMap" type="UserAccountBean">
+        <result column="user_account_id" property="id" />
+        <association property="userBaseBean" column="user_id" javaType="UserBaseBean"
+                     select="com.ljcx.user.dao.UserBaseDao.selectById"/>
+    </resultMap>
+
+    <sql id="BaseColumns">
+        id as user_account_id
+        ,account
+        ,`type`
+        ,create_time
+        ,is_delete as deleteStatus
+        ,last_login_ip
+        ,last_login_time
+        ,password as password
+        ,salt
+        ,update_time
+        ,user_id
+    </sql>
+
+    <!--根据帐号查询-->
+    <select id="findByAccount" resultMap="BaseMap" parameterType="java.lang.String">
+        select
+        <include refid="BaseColumns"/>
+        from account_user_account
+        <where>
+            account = #{account}
+            and is_delete = 1
+        </where>
+    </select>
+
+    <select id="list" resultMap="BaseMap">
+        select
+        <include refid="BaseColumns" />
+        from account_user_account
+    </select>
+
+</mapper>

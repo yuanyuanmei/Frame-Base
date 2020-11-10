@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"  xmlns:th="http://www.thymeleaf.org" class="x-admin-sm">
+<head th:include="common/head_ref::header('首页')"></head>
+<th:block th:include="common/loadjs :: loadjs" />
+<body>
+<div class="x-nav">
+            <span class="layui-breadcrumb">
+                <a href="">首页</a>
+                <a href="">演示</a>
+                <a>
+                    <cite>导航元素</cite></a>
+            </span>
+    <a class="layui-btn layui-btn-small" style="line-height:1.6em;margin-top:3px;float:right" onclick="location.reload()" title="刷新">
+        <i class="layui-icon layui-icon-refresh" style="line-height:30px"></i>
+    </a>
+</div>
+<div class="layui-fluid" layout:fragment="body">
+    <div class="layui-row layui-col-space15">
+        <div class="layui-col-md12">
+            <div class="layui-card">
+
+                <!--条件区-->
+                <div class="layui-card-body " layout:fragment="condition">
+                    <form class="layui-form layui-col-space5">
+<!--                        <div class="layui-inline layui-show-xs-block">-->
+<!--                            <input class="layui-input" autocomplete="off" placeholder="开始日" name="start" id="start"></div>-->
+<!--                        <div class="layui-inline layui-show-xs-block">-->
+<!--                            <input class="layui-input" autocomplete="off" placeholder="截止日" name="end" id="end"></div>-->
+                        <div class="layui-inline layui-show-xs-block">
+                            <input type="text" name="key" placeholder="请输入关键字" autocomplete="off" class="layui-input"></div>
+                        <div class="layui-inline layui-show-xs-block">
+                            <button class="layui-btn"   data-type="reload" type="button" id="search">
+                                <i class="layui-icon">&#xe615;</i></button>
+                        </div>
+                        <!--按钮区-->
+                        <div class="layui-inline layui-show-xs-block" layout:fragment="button">
+                            <button class="layui-btn"  id="addButton" type="button">
+                                <i class="layui-icon"></i>添加</button>
+                        </div>
+                    </form>
+                </div>
+
+
+
+                <!--表格区-->
+                <div class="layui-card-body " layout:fragment="table">
+                    <table class="layui-table" id="test" lay-filter="test"></table>
+                    <script type="text/html" id="optTpl" >
+                        <a title="编辑" lay-event = "editTable" href="javascript:;">
+                            <i class="layui-icon">&#xe642;</i>
+                        </a>
+                        <a title="删除" lay-event = "delTable" href="javascript:;">
+                            <i class="layui-icon">&#xe640;</i>
+                        </a>
+                    </script>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+
+
+</html>

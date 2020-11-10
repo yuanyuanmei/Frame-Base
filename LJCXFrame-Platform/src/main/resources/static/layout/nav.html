@@ -1,0 +1,123 @@
+<!--
+	data-color:左侧菜单的背景色
+	data-item:图标颜色
+-->
+<div class="sidebar" data-color="white" data-item='yellow'>
+        <div class="logo" style="display:none;">
+            <a href="#" class="logo-text">
+                Creative Tim
+            </a>
+        </div>
+		<div class="logo logo-mini"  style="display:none;">
+			<a href="#" class="logo-text">
+				Ct
+			</a>
+		</div>
+
+    	<div class="sidebar-wrapper">
+            <div class="user" style="display:none;">
+                <div class="photo">
+                    <img src="images/default-avatar.png" />
+                </div>
+                <div class="info">
+                    <a data-toggle="collapse" href="#collapseExample" class="collapsed">
+                        Tania Andrew
+                        <b class="caret"></b>
+                    </a>
+                    <div class="collapse" id="collapseExample">
+                        <ul class="nav">
+                            <li><a href="#">My Profile</a></li>
+                            <li><a href="#">Edit Profile</a></li>
+                            <li><a href="#">Settings</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <ul class="nav" id="nav">
+            	 <li id="default">
+                    <a href="/sqadmin/index.html">
+                        <i class="pe-7s-home"></i>
+                        <p>主页</p>
+                    </a>
+                </li>
+                <li id="dist">
+                    <a href="/sqadmin/dist/index.html">
+                       <i class="ico iconfont">&#xe67c;</i>
+                        <p>行政区划</p>
+                    </a>
+                </li>
+                <li id="userManger">
+                    <a data-toggle="collapse" href="#userCollapse">
+                        <i class="pe-7s-add-user"></i>
+                        <p>用户管理 <b class="caret"></b></p>
+                    </a>
+                    <div class="collapse" id="userCollapse">
+                        <ul class="nav">
+                            <li id="user"><a href="/sqadmin/sysUser/user_index.html">用户管理</a></li>
+                            <li id="role"><a href="/sqadmin/sysUser/role_index.html">角色管理</a></li>
+                            <li id="org"><a href="/sqadmin/sysUser/org_index.html">机构管理</a></li>
+                            <li id="power"><a href="/sqadmin/sysUser/power_index.html">权限管理</a></li>
+                        </ul>
+                    </div>
+                </li>
+
+                <li id="sys">
+                    <a href="#sysCollapse" data-toggle="collapse">
+                        <i class="ico iconfont">&#xe606;</i>
+                        <p>系统管理
+                           <b class="caret"></b>
+                        </p>
+                    </a>
+                    <div class="collapse" id="sysCollapse">
+                        <ul class="nav">
+                            <li id="menu"><a href="/sqadmin/sysadmin/menu_index.html">菜单管理</a></li>
+                            <li id="opear"><a href="/sqadmin/sysadmin/opear_index.html">功能按钮</a></li>
+                            <li id="data"><a href="/sqadmin/sysadmin/data_index.html">数据字典</a></li>
+                            <li id="parms"><a href="/sqadmin/sysadmin/parms_index.html">系统参数</a></li>
+                        </ul>
+                    </div>
+                </li>
+            </ul>
+    	</div>
+    </div>
+   <script type="text/javascript">
+		$('#nav ul li').removeClass('active');
+		if(window.location.href.indexOf('dist') != -1){
+			$('#dist').addClass('active');
+		}else if(window.location.href.indexOf('user_') != -1){
+			$('#user').addClass('active');
+			$('#userManger .collapse').addClass('in');
+			$('#userManger').addClass('active');
+		}else if(window.location.href.indexOf('role_') != -1){
+			$('#role').addClass('active');
+			$('#userManger .collapse').addClass('in');
+			$('#userManger').addClass('active');
+		}else if(window.location.href.indexOf('org_') != -1){
+			$('#org').addClass('active');
+			$('#userManger .collapse').addClass('in');
+			$('#userManger').addClass('active');
+		}else if(window.location.href.indexOf('power_') != -1){
+			$('#power').addClass('active');
+			$('#userManger .collapse').addClass('in');
+			$('#userManger').addClass('active');
+		}else if(window.location.href.indexOf('menu_') != -1){
+			$('#menu').addClass('active');
+			$('#sys .collapse').addClass('in');
+			$('#sys').addClass('active');
+		}else if(window.location.href.indexOf('data_') != -1){
+			$('#data').addClass('active');
+			$('#sys .collapse').addClass('in');
+			$('#sys').addClass('active');
+		}else if(window.location.href.indexOf('parms_') != -1){
+			$('#parms').addClass('active');
+			$('#sys .collapse').addClass('in');
+			$('#sys').addClass('active');
+		}else if(window.location.href.indexOf('opear_') != -1){
+			$('#opear').addClass('active');
+			$('#sys .collapse').addClass('in');
+			$('#sys').addClass('active');
+		}else{
+			$('#default').addClass('active');
+		}
+	</script>

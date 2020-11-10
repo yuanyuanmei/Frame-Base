@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ljcx.code.dao.TaskRecordsDao">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap id="BaseMap" type="TaskRecordsBean">
+    </resultMap>
+
+    <sql id="BaseColumns">
+id   ,task_id   ,perform_user   ,start_time   ,end_time   ,complete_status   ,is_delete      </sql>
+
+    <select id="pageList" resultType="TaskRecordsBean" parameterType="com.ljcx.code.dto.TaskDto">
+        select
+        <include refid="BaseColumns"/>
+        from ljcx_task_records a
+        <where>
+            <if test="item.taskId != null">
+                and a.task_id = #{item.taskId}
+            </if>
+            and a.is_delete = 1
+        </where>
+    </select>
+</mapper>

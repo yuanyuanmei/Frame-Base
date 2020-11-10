@@ -1,0 +1,21 @@
+package ${package}.${moduleName}.dao;
+
+import ${package}.${moduleName}.beans.${className}Bean;
+import ${package}.${moduleName}.dto.${className}Dto;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
+/**
+ * ${comments}
+ * 
+ * @author ${author}
+ * @date ${datetime}
+ */
+
+public interface ${className}Dao extends BaseMapper<${className}Bean> {
+
+    IPage<${className}Bean> pageList(IPage<${className}Bean> page, @Param("item") ${className}Dto ${classname}Dto);
+	
+}

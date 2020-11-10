@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ljcx.api.dao.PanoramaDao">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap id="BaseMap" type="PanoramaBean">
+    </resultMap>
+
+    <sql id="BaseColumns">
+id   ,name   ,url   ,lng   ,lat   ,address   ,is_share   ,create_user   ,create_time   ,is_delete ,file_path,gen_status,team_id        </sql>
+
+    <select id="pageList" resultType="com.ljcx.api.vo.PanoramaVo" parameterType="com.ljcx.api.dto.PanoramaDto">
+        select
+        a.id,a.name,a.url,a.lng,a.lat,a.address,a.is_share,a.create_time,b.nickname userName
+        from ljcx_panorama a
+        left join account_user_base b on a.create_user = b.id
+        <where>
+            <if test="item.key != null and item.key != '' ">
+                and LOCATE(#{item.key},a.name) > 0
+            </if>
+            and a.is_delete = 1
+        </where>
+    </select>
+
+    <select id="listBean" resultType="PanoramaBean" parameterType="com.ljcx.api.dto.PanoramaDto">
+        select
+        id   ,name,url ,lng   ,lat   ,address   ,is_share   ,create_user   ,create_time,team_id ,gen_status
+        ,file_path
+        from ljcx_panorama
+        <where>
+            <if test="item.genStatus != null">
+                and gen_status = #{item.genStatus}
+            </if>
+            and is_delete =1
+        </where>
+    </select>
+</mapper>

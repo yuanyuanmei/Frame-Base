@@ -1,0 +1,491 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.ljcx</groupId>
+    <artifactId>parent</artifactId>
+    <version>1.0.0</version>
+
+    <name>ljcx</name>
+    <description>蓝疆创新管理系统</description>
+
+    <modules>
+        <module>LJCXFrame-common</module>
+        <module>LJCXFrame-user</module>
+        <module>LJCXFrame-code</module>
+        <module>LJCXFrame-framework</module>
+        <module>LJCXFrame-Platform</module>
+        <module>LJCXFrame-generator</module>
+        <module>LJCXFrame-api</module>
+        <module>LJCXFrame-quartz</module>
+        <module>LJCXFrame-panor</module>
+    </modules>
+    <packaging>pom</packaging>
+
+
+    <!--公共属性-->
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <ljcx.version>1.0.0</ljcx.version>
+        <java.version>1.8</java.version>
+        <fastjson.version>1.2.49</fastjson.version>
+        <shiro.version>1.4.1</shiro.version>
+        <swagger.version>2.8.0</swagger.version>
+        <mybatis.version>1.3.2</mybatis.version>
+        <pageHelper.version>5.1.8</pageHelper.version>
+        <aspectj.version>1.9.4</aspectj.version>
+        <lang3.version>3.8.1</lang3.version>
+        <mybatisplus.spring.boot.version>3.2.0</mybatisplus.spring.boot.version>
+        <jwt.auth0.version>3.8.0</jwt.auth0.version>
+        <httpclient.version>4.5.5</httpclient.version>
+        <dozer.version>5.5.1</dozer.version>
+        <yaml.version>1.24</yaml.version>
+        <fileUpload.version>1.3.3</fileUpload.version>
+        <servlet-api.version>4.0.1</servlet-api.version>
+        <lombok.version>1.18.8</lombok.version>
+        <druid.version>1.1.10</druid.version>
+        <springboot.version>2.2.2.RELEASE</springboot.version>
+        <mysql.version>8.0.15</mysql.version>
+        <thymeleaf.extras.shiro.version>2.0.0</thymeleaf.extras.shiro.version>
+        <thymeleaf.layout.version>2.3.0</thymeleaf.layout.version>
+        <velocity.version>1.7</velocity.version>
+        <commons.configuration.version>1.10</commons.configuration.version>
+        <active.pool.version>5.15.0</active.pool.version>
+        <spring.jms.version>5.2.0.RELEASE</spring.jms.version>
+        <pool.jms.version>1.0.6</pool.jms.version>
+        <tencentcloud.version>3.0.8</tencentcloud.version>
+        <netty.version>5.0.0.Alpha2</netty.version>
+        <jedis.version>3.0.1</jedis.version>
+    </properties>
+
+    <!--依赖声明-->
+    <dependencyManagement>
+        <dependencies>
+            <!--**********************************module***************************************-->
+            <!-- 通用工具-->
+            <dependency>
+                <groupId>com.ljcx</groupId>
+                <artifactId>common</artifactId>
+                <version>${ljcx.version}</version>
+            </dependency>
+
+            <!-- 框架-->
+            <dependency>
+                <groupId>com.ljcx</groupId>
+                <artifactId>framework</artifactId>
+                <version>${ljcx.version}</version>
+            </dependency>
+
+            <!-- 用户-->
+            <dependency>
+                <groupId>com.ljcx</groupId>
+                <artifactId>user</artifactId>
+                <version>${ljcx.version}</version>
+            </dependency>
+
+            <!-- 代码生成器-->
+            <dependency>
+                <groupId>com.ljcx</groupId>
+                <artifactId>generator</artifactId>
+                <version>${ljcx.version}</version>
+            </dependency>
+
+            <!-- 定时任务 -->
+            <dependency>
+                <groupId>com.ljcx</groupId>
+                <artifactId>quartz</artifactId>
+                <version>${ljcx.version}</version>
+            </dependency>
+
+            <!--**********************************spring-boot**********************************-->
+
+            <!-- spring-boot-starter-logging -->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-logging</artifactId>
+                <version>${springboot.version}</version>
+            </dependency>
+
+            <!--tomcat-->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-tomcat</artifactId>
+                <version>${springboot.version}</version>
+                <scope>provided</scope>
+            </dependency>
+
+
+            <!-- jdbc -->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-jdbc</artifactId>
+                <version>${springboot.version}</version>
+            </dependency>
+
+
+            <!-- SpringBoot的依赖配置-->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-dependencies</artifactId>
+                <version>${springboot.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
+            <!--redis中间件-->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-data-redis</artifactId>
+                <version>${springboot.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <artifactId>slf4j-api</artifactId>
+                        <groupId>org.slf4j</groupId>
+                    </exclusion>
+                    <!-- 去掉对 Lettuce 的依赖，因为 Spring Boot 优先使用 Lettuce 作为 Redis 客户端 -->
+                    <exclusion>
+                        <groupId>io.lettuce</groupId>
+                        <artifactId>lettuce-core</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>redis.clients</groupId>
+                        <artifactId>jedis</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+
+            <!-- 引入 Jedis 的依赖，这样 Spring Boot 实现对 Jedis 的自动化配置 -->
+            <dependency>
+                <groupId>redis.clients</groupId>
+                <artifactId>jedis</artifactId>
+                <version>${jedis.version}</version>
+            </dependency>
+
+            <!--web-->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-web</artifactId>
+                <version>${springboot.version}</version>
+            </dependency>
+
+            <!--devtools热部署-->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-devtools</artifactId>
+                <scope>runtime</scope>
+                <optional>true</optional>
+            </dependency>
+
+            <!--test-->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-test</artifactId>
+                <version>${springboot.version}</version>
+                <scope>test</scope>
+            </dependency>
+
+            <!-- mybatis -->
+            <dependency>
+                <groupId>org.mybatis.spring.boot</groupId>
+                <artifactId>mybatis-spring-boot-starter</artifactId>
+                <version>2.0.1</version>
+            </dependency>
+
+            <!-- druid -->
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>druid-spring-boot-starter</artifactId>
+                <version>${druid.version}</version>
+            </dependency>
+
+            <!-- thymeleaf模板依赖. -->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-thymeleaf</artifactId>
+                <version>${springboot.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.github.theborakompanioni</groupId>
+                <artifactId>thymeleaf-extras-shiro</artifactId>
+                <version>${thymeleaf.extras.shiro.version}</version>
+            </dependency>
+
+
+            <dependency>
+                <groupId>nz.net.ultraq.thymeleaf</groupId>
+                <artifactId>thymeleaf-layout-dialect</artifactId>
+                <version>${thymeleaf.layout.version}</version>
+            </dependency>
+
+
+            <!-- websocket通讯 -->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-websocket</artifactId>
+                <version>${springboot.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-data-mongodb</artifactId>
+                <version>${springboot.version}</version>
+            </dependency>
+
+            <!--**********************************spring-boot**********************************-->
+
+            <!--mysql-->
+            <dependency>
+                <groupId>mysql</groupId>
+                <artifactId>mysql-connector-java</artifactId>
+                <version>${mysql.version}</version>
+                <scope>runtime</scope>
+            </dependency>
+
+            <!--lombok-->
+            <dependency>
+                <groupId>org.projectlombok</groupId>
+                <artifactId>lombok</artifactId>
+                <version>${lombok.version}</version>
+            </dependency>
+
+            <!--fastjson-->
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>fastjson</artifactId>
+                <version>${fastjson.version}</version>
+            </dependency>
+
+            <!--shiro-->
+            <dependency>
+                <groupId>org.apache.shiro</groupId>
+                <artifactId>shiro-core</artifactId>
+                <version>${shiro.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.shiro</groupId>
+                <artifactId>shiro-spring</artifactId>
+                <version>${shiro.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.shiro</groupId>
+                <artifactId>shiro-ehcache</artifactId>
+                <version>${shiro.version}</version>
+            </dependency>
+
+            <!-- jwt -->
+            <dependency>
+                <groupId>com.auth0</groupId>
+                <artifactId>java-jwt</artifactId>
+                <version>${jwt.auth0.version}</version>
+            </dependency>
+
+            <!--swagger2-->
+            <dependency>
+                <groupId>io.springfox</groupId>
+                <artifactId>springfox-swagger2</artifactId>
+                <version>${swagger.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>io.springfox</groupId>
+                <artifactId>springfox-swagger-ui</artifactId>
+                <version>${swagger.version}</version>
+            </dependency>
+
+            <!--pageHelper-->
+            <dependency>
+                <groupId>com.github.pagehelper</groupId>
+                <artifactId>pagehelper</artifactId>
+                <version>${pageHelper.version}</version>
+            </dependency>
+
+            <!-- Aspect -->
+            <dependency>
+                <groupId>org.aspectj</groupId>
+                <artifactId>aspectjweaver</artifactId>
+                <version>${aspectj.version}</version>
+            </dependency>
+
+            <!-- commons-lang3-->
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-lang3</artifactId>
+                <version>${lang3.version}</version>
+            </dependency>
+
+            <!--mybatis plus 集成-->
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>mybatis-plus-boot-starter</artifactId>
+                <version>${mybatisplus.spring.boot.version}</version>
+            </dependency>
+
+            <!--http客户端-->
+            <dependency>
+                <groupId>org.apache.httpcomponents</groupId>
+                <artifactId>httpclient</artifactId>
+                <version>${httpclient.version}</version>
+            </dependency>
+
+            <!--dozer-mapper-->
+            <dependency>
+                <groupId>net.sf.dozer</groupId>
+                <artifactId>dozer-spring</artifactId>
+                <version>${dozer.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>net.sf.dozer</groupId>
+                <artifactId>dozer</artifactId>
+                <version>${dozer.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.slf4j</groupId>
+                        <artifactId>slf4j-log4j12</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>log4j</groupId>
+                        <artifactId>log4j</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.slf4j</groupId>
+                        <artifactId>jcl-over-slf4j</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+
+            <!-- yml解析器 -->
+            <dependency>
+                <groupId>org.yaml</groupId>
+                <artifactId>snakeyaml</artifactId>
+                <version>${yaml.version}</version>
+            </dependency>
+
+            <!-- 文件上传工具类 -->
+            <dependency>
+                <groupId>commons-fileupload</groupId>
+                <artifactId>commons-fileupload</artifactId>
+                <version>${fileUpload.version}</version>
+            </dependency>
+
+            <!-- servlet包 -->
+            <dependency>
+                <groupId>javax.servlet</groupId>
+                <artifactId>javax.servlet-api</artifactId>
+                <version>${servlet-api.version}</version>
+                <scope>provided</scope>
+            </dependency>
+
+            <!--velocity模板引擎-->
+            <dependency>
+                <artifactId>velocity</artifactId>
+                <groupId>org.apache.velocity</groupId>
+                <version>${velocity.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>commons-configuration</groupId>
+                <artifactId>commons-configuration</artifactId>
+                <version>${commons.configuration.version}</version>
+            </dependency>
+
+            <!--activeMq-->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-activemq</artifactId>
+                <version>${springboot.version}</version>
+            </dependency>
+            <!--消息队列连接池-->
+            <dependency>
+                <groupId>org.apache.activemq</groupId>
+                <artifactId>activemq-pool</artifactId>
+                <version>${active.pool.version}</version>
+            </dependency>
+            <!--spring-jms-->
+            <!--jms连接池2.0版本-->
+<!--            <dependency>-->
+<!--                <groupId>org.springframework</groupId>-->
+<!--                <artifactId>spring-jms</artifactId>-->
+<!--                <version>${spring.jms.version}</version>-->
+<!--            </dependency>-->
+            <!--jms连接池2.0+版本-->
+            <dependency>
+                <groupId>org.messaginghub</groupId>
+                <artifactId>pooled-jms</artifactId>
+                <version>${pool.jms.version}</version>
+            </dependency>
+
+            <!-- 腾讯云sdk -->
+            <dependency>
+                <groupId>com.tencentcloudapi</groupId>
+                <artifactId>tencentcloud-sdk-java</artifactId>
+                <version>${tencentcloud.version}</version>
+            </dependency>
+
+            <!--netty-->
+<!--            <dependency>-->
+<!--                <groupId>io.netty</groupId>-->
+<!--                <artifactId>netty-all</artifactId>-->
+<!--                <version>${netty.version}</version>-->
+<!--            </dependency>-->
+
+            <!-- https://mvnrepository.com/artifact/net.coobird/thumbnailator -->
+            <dependency>
+                <groupId>net.coobird</groupId>
+                <artifactId>thumbnailator</artifactId>
+                <version>0.4.8</version>
+            </dependency>
+
+        </dependencies>
+
+
+    </dependencyManagement>
+
+    <build>
+        <plugins>
+            <!--maven编译器插件，打包插件-->
+            <!-- 指定maven编译的jdk版本,如果不指定,maven3默认用jdk 1.5 maven2默认用jdk1.3 -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.1</version>
+                <!-- 一般而言，target与source是保持一致的，但是，有时候为了让程序能在其他版本的jdk中运行(对于低版本目标jdk
+                ，源代码中不能使用低版本jdk中不支持的语法)，会存在target不同于source的情况 -->
+                <configuration>
+                    <source>${java.version}</source> <!-- 源代码使用的JDK版本 -->
+                    <target>${java.version}</target> <!-- 需要生成的目标class文件的编译版本 -->
+                    <encoding>${project.build.sourceEncoding}</encoding> <!-- 字符集编码 -->
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+    <!-- 阿里云maven仓库 -->
+    <repositories>
+        <repository>
+            <id>public</id>
+            <name>aliyun nexus</name>
+            <url>http://maven.aliyun.com/nexus/content/groups/public/</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+        </repository>
+    </repositories>
+    <pluginRepositories>
+        <pluginRepository>
+            <id>public</id>
+            <name>aliyun nexus</name>
+            <url>http://maven.aliyun.com/nexus/content/groups/public/</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </pluginRepository>
+    </pluginRepositories>
+
+</project>

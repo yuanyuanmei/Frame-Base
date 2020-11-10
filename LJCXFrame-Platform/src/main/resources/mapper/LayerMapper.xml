@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ljcx.platform.dao.LayerDao">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap id="BaseMap" type="com.ljcx.platform.vo.LayerBeanVo">
+    </resultMap>
+
+    <sql id="BaseColumns">
+id  ,team_id ,type,url   ,name   ,lng   ,lat   ,address   ,is_share   ,extent, min_zoom, max_zoom ,create_user   ,create_time   ,is_delete      </sql>
+
+    <select id="listByTeamId" resultMap="BaseMap">
+        select a.id,a.name,a.lng,a.lat,a.address,a.is_share,a.create_time,extent, min_zoom, max_zoom
+        ,a.url,a.team_id,b.name teamName
+        from ljcx_layer a
+        left join ljcx_team_info b on a.team_id = b.id
+        <where>
+            <!--添加权限-->
+            <if test="currentUser.type != 1" >
+                <if test="teamId != null">
+                    b.id in ( SELECT t2.id FROM ljcx_team_info t1,ljcx_team_info t2 WHERE t1.id= #{teamId} AND t2.path like concat(t1.path,'%') )
+                </if>
+            </if>
+            and a.is_delete = 1 and a.is_share = 0
+        </where>
+        union
+        select a.id,a.name,a.lng,a.lat,a.address,a.is_share,a.create_time,extent, min_zoom, max_zoom
+        ,a.url,a.team_id,b.name teamName
+        from ljcx_layer a
+        left join ljcx_team_info b on a.team_id = b.id
+        <where>
+            and a.is_delete = 1 and a.is_share = 1
+        </where>
+
+    </select>
+</mapper>

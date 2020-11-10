@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ljcx.platform.dao.TaskLogDao">
+
+    <!-- 可根据自己的需求，是否要使用 -->
+    <resultMap id="BaseMap" type="TaskLogBean">
+    </resultMap>
+
+    <sql id="BaseColumns">
+    id,task_id,type,name,create_time,memo
+    </sql>
+
+    <select id="pageList" resultType="TaskLogBean" parameterType="com.ljcx.platform.dto.TaskLogDto">
+        select
+        <include refid="BaseColumns"/>
+        from ljcx_task_log a
+        <where>
+            <if test="item.key != null and item.key != '' ">
+                and LOCATE(#{item.key},a.name) > 0
+            </if>
+            and a.is_delete = 1
+        </where>
+    </select>
+
+    <select id="listByTaskId" resultType="TaskLogBean" parameterType="java.lang.Long">
+        select <include refid="BaseColumns"/>
+        from ljcx_task_log
+        where task_id = #{taskId}
+    </select>
+
+
+</mapper>

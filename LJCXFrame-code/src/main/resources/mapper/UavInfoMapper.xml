@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ljcx.code.dao.UavInfoDao">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap id="BaseMap" type="com.ljcx.code.vo.UavInfoVo">
+        <result column="uav_id" property="id" />
+    </resultMap>
+
+    <sql id="BaseColumns">
+        id uav_id  ,`no`,`model`,`name`  ,create_user   ,create_time , is_delete
+    </sql>
+
+    <select id="pageList" resultMap="BaseMap" >
+        select a.id uav_id,a.no,a.model,a.name,GROUP_CONCAT(DISTINCT c.name) team_name,a.create_time
+        from ljcx_uav_info a
+        left join ljcx_team_relationship b on a.id = b.m_id and b.m_type = 1
+        left join ljcx_team_info c on c.id = b.team_id
+        <where>
+            <if test="item.key != null and item.key != '' ">
+                and LOCATE(#{item.key},a.name) > 0
+            </if>
+            <if test="item.teamId != null and item.teamId > 0">
+                <if test="item.type == 'query'">
+                    and a.id in (select m_id from ljcx_team_relationship where team_id = #{item.teamId} and m_type = 1)
+                </if>
+                <if test="item.type == 'add'">
+                    and a.id not in (select m_id from ljcx_team_relationship where team_id = #{item.teamId} and m_type = 1)
+                </if>
+            </if>
+            <!--添加权限-->
+            <if test="currentUser.type != 1" >
+                <if test="currentUser.id != null">
+                    and c.user_id = #{currentUser.id}
+                </if>
+            </if>
+            and a.is_delete = 1
+        </where>
+        GROUP BY a.id
+    </select>
+
+    <select id="equipUavList" resultMap="BaseMap" parameterType="java.lang.Long">
+        select a.id uav_id,a.no,a.model,a.name,a.create_time
+        from ljcx_uav_info a
+        where a.is_delete = 1
+        and a.id not in (select m_id from ljcx_team_relationship where m_type = 1)
+    </select>
+
+</mapper>

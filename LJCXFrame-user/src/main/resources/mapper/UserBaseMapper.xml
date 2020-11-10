@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ljcx.user.dao.UserBaseDao">
+
+    <resultMap id="BaseMap" type="UserBaseBean">
+        <!--id等表关联重名字段需给别名-->
+        <result column="user_base_id" property="id"/>
+        <!--column是数据库查询中的参数值，不一定是外键-->
+    </resultMap>
+    <sql id="BaseColumns">
+        id as user_base_id,create_time,email,header_url,is_delete,phone,type,update_time,username,nickname,status
+        ,mileage,hours,user_sig,sign_expire_time,im_registered
+    </sql>
+
+    <select id="pageList" resultType="com.ljcx.user.vo.MemberVo" parameterType="com.ljcx.user.dto.UserDto">
+        select a.id,a.username,a.nickname,a.nickname name
+        ,a.phone,GROUP_CONCAT(DISTINCT c.name) role_name
+        ,GROUP_CONCAT(DISTINCT t.name) team_name,a.email
+        ,a.create_time,a.status
+        ,GROUP_CONCAT(DISTINCT u.account) account
+        from account_user_base a
+        left join account_sys_role_user b on a.id = b.user_id
+        left join account_sys_role c on b.role_id = c.id
+        left join ljcx_team_relationship r on a.id = r.m_id and r.m_type = 3
+        left join ljcx_team_info t on t.id = r.team_id
+        left join account_user_account u on u.user_id = a.id
+        <where>
+            <if test="item.key != null and item.key != '' ">
+                and (LOCATE(#{item.key},a.username) > 0 or LOCATE(#{item.key},a.nickname) > 0 )
+            </if>
+            <if test="item.id != null">
+                and a.id = #{item.id}
+            </if>
+            <if test="item.roleId != null">
+                and c.id = #{item.roleId}
+            </if>
+            <if test="item.teamId != null and item.teamId > 0">
+                <if test="item.type == 'query'">
+                    and a.id in (select m_id from ljcx_team_relationship where team_id = #{item.teamId} and m_type = 3)
+                </if>
+                <if test="item.type == 'add'">
+                    and a.id not in (select m_id from ljcx_team_relationship where team_id = #{item.teamId} and m_type = 3)
+                </if>
+            </if>
+            and a.is_delete = 1
+        </where>
+        GROUP BY a.id
+        having 1 = 1
+        <if test="item.notRoleId != null">
+            and a.id not in (select user_id from account_sys_role_user where role_id = #{item.notRoleId})
+        </if>
+    </select>
+
+    <select id="listByTeamId" resultType="com.ljcx.user.vo.MemberVo" parameterType="java.lang.Long">
+        select a.id,a.username,a.nickname,a.nickname name
+        ,a.phone,GROUP_CONCAT(DISTINCT c.name) role_name
+        ,a.create_time
+        from account_user_base a
+        left join account_sys_role_user b on a.id = b.user_id
+        left join account_sys_role c on b.role_id = c.id
+        <where>
+            and a.id in (select m_id from ljcx_team_relationship where team_id = #{teamId} and m_type = 3)
+            and a.is_delete = 1
+        </where>
+        GROUP BY a.id
+        having 1 = 1
+    </select>
+
+    <!-- 上级团队 -->
+    <select id="listUpTeamByTeamId" resultType="com.ljcx.user.vo.MemberVo" parameterType="java.lang.Long">
+        select a.id,a.username,a.nickname,a.nickname name
+        ,a.phone,GROUP_CONCAT(DISTINCT c.name) role_name
+        ,a.create_time
+        from account_user_base a
+        left join account_sys_role_user b on a.id = b.user_id
+        left join account_sys_role c on b.role_id = c.id
+        <where>
+            and a.id in ( select DISTINCT m_id from ljcx_team_relationship where team_id in
+            ( SELECT t1.id FROM ljcx_team_info t1,ljcx_team_info t2 WHERE t2.id= #{teamId} AND t2.path
+            like concat(t1.path,'%') ) and m_type = 3)
+            and a.is_delete = 1
+        </where>
+        GROUP BY a.id
+        having 1 = 1
+    </select>
+
+    <update id="updateStatus" parameterType="com.ljcx.user.dto.UserDto">
+        update account_user_base set status = #{status}
+        where id in
+        <foreach collection="userIds" open="(" close=")" separator="," item="userId">
+            #{userId}
+        </foreach>
+    </update>
+
+    <update id="deleteImAccount">
+        update account_user_base set im_registered = 0
+        where username in
+        <foreach collection="usernames" open="(" close=")" separator="," item="username">
+            #{username}
+        </foreach>
+    </update>
+
+
+    <select id="equipMemberList" resultType="com.ljcx.user.vo.MemberVo" parameterType="java.lang.Long">
+        select a.id,a.username,a.nickname,a.nickname name
+        from account_user_base a
+        where a.is_delete = 1
+        and a.id not in (select m_id from ljcx_team_relationship where m_type = 3 and team_id in
+        (
+        SELECT distinct a.id FROM ljcx_team_info a,ljcx_team_info b where b.id = #{teamId} and b.path like CONCAT(a.path,'/%')
+        UNION
+        SELECT distinct b.id FROM ljcx_team_info a,ljcx_team_info b where a.id = #{teamId} and b.path like CONCAT(a.path,'%'))
+        )
+    </select>
+</mapper>

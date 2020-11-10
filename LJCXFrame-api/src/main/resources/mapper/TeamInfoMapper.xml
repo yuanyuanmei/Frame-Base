@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ljcx.api.dao.TeamInfoDao">
+
+    <resultMap id="BaseMap" type="com.ljcx.api.vo.TeamInfoVo">
+        <result column="team_id" property="id" />
+        <!--column是数据库查询中的参数值，不一定是外键-->
+        <collection property="uavs" ofType="UavInfoVo" column="team_id"
+                    select="com.ljcx.api.dao.UavInfoDao.listByTeamId"/>
+        <collection property="cars" ofType="CarsInfoVo" column="team_id"
+                    select="com.ljcx.api.dao.CarInfoDao.listByTeamId"/>
+        <collection property="members" ofType="MemberVo" column="team_id"
+                    select="com.ljcx.user.dao.UserBaseDao.listByTeamId"/>
+    </resultMap>
+    <sql id="BaseColumns">
+        id,user_id,name,memo,room_id,create_user,create_time,is_delete,im_group_name,im_group_id,pid,path
+    </sql>
+
+    <select id="list" resultMap="BaseMap" parameterType="com.ljcx.api.dto.TeamInfoDto">
+        select a.id team_id,a.name,b.nickname userName,a.create_time,a.user_id,a.memo,a.im_group_name,a.im_group_id
+        from ljcx_team_info a
+        left join account_user_base b on a.user_id = b.id
+        <where>
+            and a.id in (select team_id from ljcx_team_relationship where m_id = #{item.userId} and m_type = 3)
+            and a.is_delete = 1
+        </where>
+    </select>
+
+    <select id="info" resultMap="BaseMap" parameterType="java.lang.Long">
+        select a.id team_id,a.name,b.nickname userName,a.create_time,a.user_id,a.memo,a.im_group_name,a.im_group_id
+        from ljcx_team_info a
+        left join account_user_base b on a.user_id = b.id
+        where a.id = #{id};
+    </select>
+
+    <select id="getDataNums" resultType="com.ljcx.api.vo.MapVo" >
+        select (case m_type when 1 then '无人机' when 2 then '车辆' when 3 then '人员' end) `name`
+        ,count(1) `value` from ljcx_team_relationship a
+        <where>
+            <if test="teamId != null and teamId != -1">
+                and a.team_id = #{teamId}
+            </if>
+            <if test="teamId == -1 and userId != null">
+                and a.team_id in (select team_id from ljcx_team_relationship where m_type = 3 and m_id = #{userId})
+            </if>
+        </where>
+        group by a.m_type
+    </select>
+
+    <select id="getTotalNums" resultType="java.lang.Integer" >
+        select count(1) from ljcx_team_relationship a
+        <where>
+            <if test="teamId != null and teamId != -1">
+                and a.team_id = #{teamId}
+            </if>
+            <if test="teamId == -1 and userId != null">
+                and a.team_id in (select team_id from ljcx_team_relationship where m_type = 3 and m_id = #{userId})
+            </if>
+        </where>
+    </select>
+
+    <insert id="bindTeam" >
+        insert IGNORE into ljcx_team_relationship(team_id,m_id,m_type,create_user)
+        values
+        <foreach collection="item.mIds" separator="," item="mId">
+            (#{item.id},#{mId},#{item.mType},#{item.createUser})
+        </foreach>
+    </insert>
+
+    <select id="teamRelationCount" resultType="java.lang.Integer">
+        select count(1) from ljcx_team_relationship
+        where team_id = #{teamId} and  m_id = #{mId} and m_type = #{mType}
+    </select>
+
+    <select id="teamList" resultMap="BaseMap" parameterType="com.ljcx.api.dto.TeamInfoDto">
+        SELECT distinct a.id team_id,a.name,(select nickname from account_user_base where id = a.user_id) nickname,a.create_time,a.user_id,a.memo
+        ,a.pid,a.path,false 'canSelect'
+        FROM ljcx_team_info a,ljcx_team_info b
+        where b.id  in (select team_id from ljcx_team_relationship where m_id = #{item.userId} and m_type = 3) and b.path like CONCAT(a.path,'/%')
+        UNION
+        SELECT distinct b.id team_id,b.name,(select nickname from account_user_base where id = b.user_id) nickname,b.create_time,b.user_id,b.memo
+        ,b.pid,b.path,true 'canSelect'
+        FROM ljcx_team_info a,ljcx_team_info b
+        where a.id  in (select team_id from ljcx_team_relationship where m_id = #{item.userId} and m_type = 3) and b.path like CONCAT(a.path,'%')
+    </select>
+</mapper>

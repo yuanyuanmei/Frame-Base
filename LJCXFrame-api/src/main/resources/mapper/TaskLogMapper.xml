@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ljcx.api.dao.TaskLogDao">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap id="BaseMap" type="TaskLogBean">
+    </resultMap>
+
+    <sql id="BaseColumns">
+    id,task_id,type,name,create_time,memo
+    </sql>
+
+    <select id="pageList" resultType="TaskLogBean" parameterType="com.ljcx.api.dto.TaskLogDto">
+        select
+        <include refid="BaseColumns"/>
+        from ljcx_task_log a
+        <where>
+            <if test="item.key != null and item.key != '' ">
+                and LOCATE(#{item.key},a.name) > 0
+            </if>
+            and a.is_delete = 1
+        </where>
+    </select>
+
+
+    <select id="info" resultType="com.ljcx.api.vo.TaskLogVo" parameterType="java.lang.Long">
+        select a.id,a.task_id,a.type,a.name,a.create_time,a.memo,b.nickname userName,c.name taskName
+        from ljcx_task_log a
+        left join account_user_base b on a.create_user = b.id
+        left join ljcx_task c on c.id = a.task_id
+        where a.id = #{id}
+    </select>
+
+    <select id="listByTaskId" resultType="com.ljcx.api.vo.TaskLogVo" parameterType="java.lang.Long">
+        select a.id,a.task_id,a.type,a.name,a.create_time,a.memo,b.nickname userName,c.name taskName
+        from ljcx_task_log a
+        left join account_user_base b on a.create_user = b.id
+        left join ljcx_task c on c.id = a.task_id
+        where a.task_id = #{taskId}
+    </select>
+
+    <update id="updateByResultId">
+        update ljcx_task_log set records_id = #{recordsId}
+        where id in
+        <foreach collection="logIds" open="(" close=")" separator="," item="logId">
+            #{logId}
+        </foreach>
+    </update>
+
+
+</mapper>

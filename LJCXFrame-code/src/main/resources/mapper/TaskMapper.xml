@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ljcx.code.dao.TaskDao">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap id="BaseMap" type="com.ljcx.code.vo.TaskVo">
+    </resultMap>
+
+    <sql id="BaseColumns">
+id task_id   ,team_id   ,name   ,type   ,memo   ,complete_status   ,start_time   ,end_time   ,create_user   ,create_time   ,is_delete      </sql>
+
+    <select id="pageList" resultMap="BaseMap" parameterType="com.ljcx.code.dto.TaskDto">
+        select a.id,a.name,d1.name typeName,a.create_time,a.complete_status,t.`name` teamName,a.team_Id
+        from ljcx_task a
+        left join sys_dic_desc d1 on d1.id = a.type and d1.code = 'TASK_TYPE'
+        left join ljcx_team_info t on t.id = a.team_id
+        <where>
+            <if test="item.key != null and item.key != '' ">
+                and LOCATE(#{item.key},a.name) > 0
+            </if>
+            and a.is_delete = 1
+        </where>
+    </select>
+
+    <select id="teamTaskCount" resultType="java.lang.Integer" >
+        select count(1) from ljcx_task
+        where team_id in
+        <foreach collection="teamIds" item="teamId" separator="," open="(" close=")">
+            #{teamId}
+        </foreach>
+        and is_delete = 1
+    </select>
+</mapper>

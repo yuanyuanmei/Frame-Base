@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" class="x-admin-sm">
+<head th:include="common/head_ref::header('定时任务管理')"></head>
+<style>
+    .layui-form-label{
+        width: 90px;
+    }
+</style>
+<body>
+<div class="layui-fluid">
+    <div class="layui-row">
+        <form class="layui-form">
+            <div class="layui-form-item">
+                <label for="jobName" class="layui-form-label">
+                    <span class="x-red">*</span>任务名称</label>
+                <div class="layui-input-inline">
+                    <input type="hidden" name="id" id="id"/>
+                    <input type="text" id="jobName" name="jobName" required="" lay-verify="jobName" autocomplete="off" class="layui-input"></div>
+            </div>
+            <div class="layui-form-item">
+                <label for="jobGroup" class="layui-form-label">
+                    <span class="x-red">*</span>任务分组</label>
+                <div class="layui-input-inline">
+                    <input type="text" id="jobGroup" name="jobGroup" required="" lay-verify="jobGroup" autocomplete="off" class="layui-input"></div>
+            </div>
+            <div class="layui-form-item">
+                <label for="invokeTarget" class="layui-form-label">
+                    <span class="x-red">*</span>调用目标字符串</label>
+                <div class="layui-input-inline">
+                    <input type="text" id="invokeTarget" name="invokeTarget" required="" lay-verify="invokeTarget" autocomplete="off" class="layui-input"></div>
+            </div>
+            <div class="layui-form-item">
+                <label for="cronExpression" class="layui-form-label">
+                    <span class="x-red">*</span>cron表达式</label>
+                <div class="layui-input-inline">
+                    <input type="text" id="cronExpression" name="cronExpression" required="" lay-verify="cronExpression" autocomplete="off" class="layui-input"></div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">
+                    <span class="x-red">*</span>执行策略</label>
+                <div class="layui-input-inline" style="width: 356px;">
+                    <input type="radio" name="misfirePolicy"  lay-skin="primary" title="立即执行" value="1" />
+                    <input type="radio" name="misfirePolicy"  lay-skin="primary" title="执行一次" value="2" />
+                    <input type="radio" name="misfirePolicy"  lay-skin="primary" title="放弃执行" value="3" />
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">
+                    <span class="x-red">*</span>并发执行</label>
+                <div class="layui-input-inline">
+                    <input type="radio" name="concurrent" lay-skin="primary" title="允许" value="0" />
+                    <input type="radio" name="concurrent" lay-skin="primary" title="禁止" value="1" />
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">
+                    <span class="x-red">*</span>状态</label>
+                <div class="layui-input-inline">
+                    <input type="radio" name="status" lay-skin="primary" title="正常" value="0" />
+                    <input type="radio" name="status" lay-skin="primary" title="禁止" value="1" />
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label"><span class="x-red">*</span>备注</label>
+                <div class="layui-input-block">
+                    <textarea type="checkbox" name="shareStatus" id="shareStatus" lay-skin="primary" title="是否共享" class="layui-textarea" ></textarea>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label for="" class="layui-form-label"></label>
+                <button class="layui-btn" lay-filter="add" lay-submit="">保存</button></div>
+        </form>
+    </div>
+</div>
+<th:block th:include="common/loadjs :: loadjs" />
+<script type="text/javascript" src="static/admin/js/modules/monitor/job_add.js" th:src="@{/static/admin/js/modules/monitor/job_add.js}"></script>
+</body>
+
+</html>

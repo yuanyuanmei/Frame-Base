@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html  xmlns:th="http://www.thymeleaf.org" lang="en">
+<head th:fragment="header(title)">
+    <meta charset="UTF-8" />
+    <title th:text="${title}"></title>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <link th:href="@{/static/libs/layer/theme/default/layer.css}" rel="stylesheet" />
+    <link href="../static/libs/layui/css/layui.css" th:href="@{/static/libs/layui/css/layui.css}" rel="stylesheet"/>
+    <!--font-->
+    <link th:href="@{/static/css/font.min.css}" href="../static/css/font.min.css" rel="stylesheet">
+
+    <link th:href="@{/static/libs/ol6.0/ol.css}" href="../static/libs/ol6.0/ol.css" rel="stylesheet"/>
+    <link th:href="@{/static/css/normalize.css}" href="../static/css/normalize.css" rel="stylesheet"/>
+    <link th:href="@{/static/css/style.css}" href="../static/css/style.css" rel="stylesheet"/>
+    <link th:href="@{/static/css/map.css}" href="../static/css/map.css" rel="stylesheet"/>
+    <!--[if lt IE 9]>
+    <script type="text/javascript"  src="./static/libs/html5/html5shiv.js"></script>
+    <script type="text/javascript"  src="./static/libs/html5/respond.js"></script>
+    <![endif]-->
+</head>

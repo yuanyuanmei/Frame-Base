@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" class="x-admin-sm">
+<head th:include="common/head_ref::header('字典管理')"></head>
+
+<body>
+<div class="layui-fluid">
+    <div class="layui-row">
+        <form class="layui-form">
+
+            <div class="layui-form-item">
+                <label for="id" class="layui-form-label">
+                    <span class="x-red">*</span>编号</label>
+                <div class="layui-input-inline">
+                    <input type="hidden" name="seq" id="seq">
+                    <input type="number" id="id" name="id" required="" lay-verify="id" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <label for="name" class="layui-form-label">
+                    <span class="x-red">*</span>名称</label>
+                <div class="layui-input-inline">
+                    <input type="text" id="name" name="name" required="" lay-verify="name" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <label for="code" class="layui-form-label">
+                    <span class="x-red">*</span>编码</label>
+                <div class="layui-input-inline">
+                    <input type="text" id="code" name="code" required="" lay-verify="code" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <label for="memo" class="layui-form-label">
+                    <span class="x-red">*</span>描述</label>
+                <div class="layui-input-inline">
+                    <textarea type="text" id="memo" name="memo" required="" lay-verify="memo" autocomplete="off" class="layui-textarea"></textarea>
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <label for="sort" class="layui-form-label">
+                    <span class="x-red">*</span>序号</label>
+                <div class="layui-input-inline">
+                    <input type="number" id="sort" name="sort" required="" lay-verify="sort" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <label class="layui-form-label"></label>
+                <button class="layui-btn" lay-filter="add" lay-submit="">保存</button>
+            </div>
+        </form>
+    </div>
+</div>
+<th:block th:include="common/loadjs :: loadjs" />
+<script type="text/javascript" src="static/admin/js/modules/sys/dict_add.js" th:src="@{/static/admin/js/modules/sys/dict_add.js}"></script>
+</body>
+
+</html>

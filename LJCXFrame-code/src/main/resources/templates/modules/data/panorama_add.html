@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" class="x-admin-sm">
+<head th:include="common/head_ref::header('全景图管理')"></head>
+
+<body>
+<div class="layui-fluid">
+    <div class="layui-row">
+        <form class="layui-form">
+            <div class="layui-form-item">
+                <label for="name" class="layui-form-label">
+                    <span class="x-red">*</span>名称</label>
+                <div class="layui-input-inline">
+                    <input type="hidden" name="id" id="id"/>
+                    <input type="text" id="name" name="name" required="" lay-verify="name" autocomplete="off" class="layui-input"></div>
+            </div>
+            <div class="layui-form-item">
+                <label for="url" class="layui-form-label">
+                    <span class="x-red">*</span>图片路径</label>
+                <div class="layui-input-inline">
+                    <input type="text" id="url" name="url" required="" lay-verify="url" autocomplete="off" class="layui-input"></div>
+            </div>
+            <div class="layui-form-item">
+                <label for="lng" class="layui-form-label">
+                    <span class="x-red">*</span>经度</label>
+                <div class="layui-input-inline">
+                    <input type="text" id="lng" name="lng" required="" lay-verify="lng" autocomplete="off" class="layui-input"></div>
+            </div>
+            <div class="layui-form-item">
+                <label for="lat" class="layui-form-label">
+                    <span class="x-red">*</span>纬度</label>
+                <div class="layui-input-inline">
+                    <input type="text" id="lat" name="lat" required="" lay-verify="lat" autocomplete="off" class="layui-input"></div>
+            </div>
+            <div class="layui-form-item">
+                <label for="address" class="layui-form-label">
+                    <span class="x-red">*</span>地址</label>
+                <div class="layui-input-inline">
+                    <input type="text" id="address" name="address" required="" lay-verify="address" autocomplete="off" class="layui-input"></div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label"><span class="x-red">*</span>是否共享</label>
+                <div class="layui-input-block">
+                    <input type="checkbox" name="shareStatus" id="shareStatus" lay-skin="primary" title="是否共享" value="1" >
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label for="L_repass" class="layui-form-label"></label>
+                <button class="layui-btn" lay-filter="add" lay-submit="">保存</button></div>
+        </form>
+    </div>
+</div>
+<th:block th:include="common/loadjs :: loadjs" />
+<script type="text/javascript" src="static/admin/js/modules/data/panorama_add.js" th:src="@{/static/admin/js/modules/data/panorama_add.js}"></script>
+</body>
+
+</html>

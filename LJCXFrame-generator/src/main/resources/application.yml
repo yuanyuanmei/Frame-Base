@@ -1,0 +1,32 @@
+# Tomcat
+server:
+  tomcat:
+    uri-encoding: UTF-8
+    max-threads: 1000
+    min-spare-threads: 30
+  port: 8081
+
+spring:
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    #MySQL配置
+    driverClassName: com.mysql.jdbc.Driver
+    url: jdbc:mysql://10.5.0.200:3306/lj_ws_panorama?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8
+    username: ljcx_frame
+    password: lanjiang2019
+  resources:
+    static-locations: classpath:/static/,classpath:/views/
+
+
+mybatis:
+  mapperLocations: classpath:mapper/**/*.xml
+
+
+pagehelper:
+  reasonable: true
+  supportMethodsArguments: true
+  params: count=countSql
+
+#指定数据库，可选值有【mysql、oracle、sqlserver、postgresql】
+ljcx:
+  database: mysql

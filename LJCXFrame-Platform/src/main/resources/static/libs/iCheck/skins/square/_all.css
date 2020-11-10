@@ -1,0 +1,91 @@
+/* iCheck plugin Square skin, blue
+----------------------------------- */
+
+.icheck-radio,
+.icheck-checkbox {
+    display: inline-block;
+    *display: inline;
+    vertical-align: middle;
+    margin: 0;
+    padding: 0;
+    width: 22px;
+    height: 22px;
+    background: url(blue.png) no-repeat;
+    border: none;
+    cursor: pointer;
+}
+[data-item = 'yellow'] .icheck-checkbox{
+	background: url(yellow.png) 0 0 no-repeat;
+}
+[data-item = 'yellow'] .icheck-radio{
+	background: url(yellow.png) -120px 0 no-repeat;
+}
+[data-item='blue'] .icheck-checkbox{
+	background: url(blue.png) 0 0 no-repeat;
+}
+[data-item='blue'] .icheck-radio{
+	background: url(blue.png) -120px 0 no-repeat;
+}
+[data-item='green'] .icheck-checkbox{
+	background: url(green.png) 0 0 no-repeat;
+}
+[data-item='green'] .icheck-radio{
+	background: url(green.png) -120px 0 no-repeat;
+}
+[data-item='black'] .icheck-checkbox{
+	background: url(grey.png) 0 0 no-repeat;
+}
+[data-item='black'] .icheck-radio{
+	background: url(grey.png) -120px 0 no-repeat;
+}
+.icheck-checkbox {
+    background-position: 0 0;
+}
+    .icheck-checkbox.hover {
+        background-position: -24px 0;
+    }
+    .icheck-checkbox.checked {
+        background-position: -48px 0;
+    }
+    .icheck-checkbox.disabled {
+        background-position: -72px 0;
+        cursor: default;
+    }
+    .icheck-checkbox.checked.disabled {
+        background-position: -96px 0;
+    }
+
+	.icheck-radio {
+	    background-position: -120px 0;
+	}
+    .icheck-radio.hover {
+        background-position: -144px 0;
+    }
+    .icheck-radio.checked {
+        background-position: -168px 0;
+    }
+    .icheck-radio.disabled {
+        background-position: -192px 0;
+        cursor: default;
+    }
+    .icheck-radio.checked.disabled {
+        background-position: -216px 0;
+    }
+	.form-iCheck{
+			padding:8px 0;
+	}
+	.form-iCheck .disabled{
+		cursor: not-allowed;
+	}
+	.form-iCheck .label-for-icheck{
+		margin-right:10px;
+		margin-bottom:0;
+	}
+@media (-o-min-device-pixel-ratio: 5/4), (-webkit-min-device-pixel-ratio: 1.25), (min-resolution: 120dpi), (min-resolution: 1.25dppx) {
+    .icheck-checkbox,
+    .icheck-radio {
+        background-image: url(purple@2x.png);
+        -webkit-background-size: 240px 24px;
+        background-size: 240px 24px;
+    }
+}

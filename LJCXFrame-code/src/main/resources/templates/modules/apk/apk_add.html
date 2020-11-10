@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" class="x-admin-sm">
+<head th:include="common/head_ref::header('图层管理')"></head>
+
+<body>
+<div class="layui-fluid">
+    <div class="layui-row">
+        <form class="layui-form">
+            <div class="layui-form-item">
+                <label for="versionName" class="layui-form-label">
+                    <span class="x-red">*</span>版本名称</label>
+                <div class="layui-input-inline">
+                    <input type="hidden" name="id" id="id">
+                    <input type="text" id="versionName" name="versionName" required="" lay-verify="versionName" autocomplete="off" class="layui-input"></div>
+            </div>
+            <div class="layui-form-item">
+                <label for="versionCode" class="layui-form-label">
+                    <span class="x-red">*</span>版本号</label>
+                <div class="layui-input-inline">
+                    <input type="text" id="versionCode" name="versionCode" required="" lay-verify="versionCode" autocomplete="off" class="layui-input"></div>
+            </div>
+            <div class="layui-form-item">
+                <label for="apkName" class="layui-form-label">
+                    <span class="x-red">*</span>apk名称</label>
+                <div class="layui-input-inline">
+                    <input type="text" id="apkName" name="apkName" required="" lay-verify="code" autocomplete="off" class="layui-input"></div>
+            </div>
+            <div class="layui-form-item">
+                <label for="memo" class="layui-form-label">
+                    <span class="x-red">*</span>apk说明</label>
+                <div class="layui-input-inline">
+                    <textarea type="text" id="memo" name="memo" required="" lay-verify="memo" autocomplete="off" class="layui-textarea"></textarea></div>
+            </div>
+            <div class="layui-form-item">
+                <label for="appKey" class="layui-form-label">
+                    <span class="x-red">*</span>appKey</label>
+                <div class="layui-input-inline">
+                    <input type="text" id="appKey" name="appKey" required="" lay-verify="appKey" autocomplete="off" class="layui-input"></div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label"><span class="x-red">*</span>是否强制更新</label>
+                <div class="layui-input-block">
+                    <input type="checkbox" name="isForceUpdate" id="isForceUpdate" lay-skin="primary" title="是" value="1" >
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <button class="layui-btn" lay-filter="add" lay-submit="">保存</button></div>
+        </form>
+    </div>
+</div>
+<th:block th:include="common/loadjs :: loadjs" />
+<script type="text/javascript" src="static/admin/js/modules/apk/apk_add.js" th:src="@{/static/admin/js/modules/apk/apk_add.js}"></script>
+</body>
+
+</html>

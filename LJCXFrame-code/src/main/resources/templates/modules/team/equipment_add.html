@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" class="x-admin-sm">
+<head th:include="common/head_ref::header('团队管理')"></head>
+    
+    <body>
+        <div class="layui-fluid">
+            <div class="layui-row">
+                    <form action="" method="post" class="layui-form layui-form-pane">
+                        <div class="layui-form-item">
+                            <label for="name" class="layui-form-label">
+                                <span class="x-red">*</span>团队名称
+                            </label>
+                            <div class="layui-input-inline">
+                                <input type="text" id="name" autocomplete="off" class="layui-input" value="">
+                            </div>
+                        </div>
+                        <div class="layui-form-item layui-form-text">
+                            <label class="layui-form-label">
+                                拥有权限
+                            </label>
+                            <table  class="layui-table layui-input-block">
+                                <tbody>
+                                <tr>
+                                    <td>
+                                        <input type="checkbox" name="allUav" lay-skin="primary" lay-filter="father" title="无人机管理">
+                                    </td>
+                                    <td>
+                                        <div class="layui-input-block" id="uavList">
+<!--                                            <input name="id[]" lay-skin="primary" type="checkbox" title="无人机" value="0">-->
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <input name="allCar" lay-skin="primary" type="checkbox" value="2" title="指挥车管理" lay-filter="father">
+                                    </td>
+                                    <td>
+                                        <div class="layui-input-block" id="carList">
+<!--                                            <input name="id[]" lay-skin="primary" type="checkbox" title="指挥车" value="0">-->
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <input name="allMember" lay-skin="primary" type="checkbox" value="2" title="人员管理" lay-filter="father">
+                                    </td>
+                                    <td>
+                                        <div class="layui-input-block" id="memberList">
+<!--                                            <input name="id[]" lay-skin="primary" type="checkbox" title="人员管理" value="0">-->
+                                        </div>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="layui-form-item">
+                            <button class="layui-btn" lay-submit="" lay-filter="add">保存</button>
+                        </div>
+                    </form>
+        </div>
+        </div>
+        <th:block th:include="common/loadjs :: loadjs" />
+        <script type="text/javascript" src="static/admin/js/modules/team/equipment_add.js" th:src="@{/static/admin/js/modules/team/equipment_add.js}"></script>
+    </body>
+
+</html>

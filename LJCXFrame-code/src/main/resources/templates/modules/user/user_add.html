@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" class="x-admin-sm">
+<head th:include="common/head_ref::header('用户管理')"></head>
+    
+    <body>
+        <div class="layui-fluid">
+            <div class="layui-row">
+                <form class="layui-form">
+                    <div class="layui-form-item" id="accountDiv">
+                        <label for="account" class="layui-form-label">
+                            <span class="x-red">*</span>用户账号：</label>
+                        <div class="layui-input-inline">
+                            <input type="text" id="account" name="account" required="" lay-verify="account" autocomplete="off" class="layui-input"></div>
+                    </div>
+                    <div class="layui-form-item" id="pwdDiv">
+                        <label for="password" class="layui-form-label">
+                            <span class="x-red">*</span>用户密码：</label>
+                        <div class="layui-input-inline">
+                            <input type="password" id="password" name="password" required="" lay-verify="pass" autocomplete="off" class="layui-input"></div>
+                    </div>
+                    <div class="layui-form-item" id="repwdDiv">
+                        <label for="repassword" class="layui-form-label">
+                            <span class="x-red">*</span>重复密码：</label>
+                        <div class="layui-input-inline">
+                            <input type="password" id="repassword" name="password" required="" lay-verify="repass" autocomplete="off" class="layui-input"></div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label for="nickname" class="layui-form-label">
+                            <span class="x-red">*</span>用户昵称：</label>
+                        <div class="layui-input-inline">
+                            <input type="hidden" name="id" id="id"/>
+                            <input type="hidden" name="teamId" id="teamId"/>
+                            <input type="text" id="nickname" name="nickname" required="" lay-verify="nickname" autocomplete="off" class="layui-input"></div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label for="phone" class="layui-form-label">
+                            <span class="x-red">*</span>手机号码：</label>
+                        <div class="layui-input-inline">
+                            <input type="text" id="phone" name="phone" required=""  autocomplete="off" class="layui-input"></div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label for="email" class="layui-form-label">
+                            <span class="x-red">*</span>邮箱地址：</label>
+                        <div class="layui-input-inline">
+                            <input type="text" id="email" name="email" required=""  autocomplete="off" class="layui-input"></div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label"><span class="x-red">*</span>角色</label>
+                        <div class="layui-input-block" id ="roleDiv"></div>
+                    </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label"></label>
+            <button class="layui-btn" lay-filter="add" lay-submit="">保存</button>
+            <button class="layui-btn layui-btn-normal" type="reset">取消</button>
+        </div>
+        </form>
+        </div>
+        </div>
+        <th:block th:include="common/loadjs :: loadjs" />
+        <script type="text/javascript" src="static/admin/js/modules/user/user_add.js" th:src="@{/static/admin/js/modules/user/user_add.js}"></script>
+    </body>
+
+</html>

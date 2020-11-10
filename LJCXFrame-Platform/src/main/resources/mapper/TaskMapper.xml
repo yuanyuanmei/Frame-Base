@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ljcx.platform.dao.TaskDao">
+
+    <!-- 可根据自己的需求，是否要使用 -->
+    <resultMap id="ListMap" type="com.ljcx.platform.vo.TaskVo">
+
+    </resultMap>
+
+    <resultMap id="BeanMap" type="com.ljcx.platform.vo.TaskVo">
+        <result column="task_id" property="id" />
+        <collection property="fileList" ofType="SysFileVo" column="task_id"
+                    select="com.ljcx.framework.sys.dao.SysFileDao.listByTaskId"/>
+        <collection property="recordsList" ofType="TaskRecordsBean" column="task_id"
+                    select="com.ljcx.platform.dao.TaskRecordsDao.listByTaskId"/>
+        <collection property="logList" ofType="com.ljcx.api.vo.TaskLogVo" column="task_id"
+                    select="com.ljcx.platform.dao.TaskLogDao.listByTaskId"/>
+    </resultMap>
+
+
+    <sql id="BaseColumns">
+id task_id   ,team_id   ,name   ,type   ,memo   ,complete_status   ,start_time   ,end_time   ,create_user   ,create_time   ,is_delete      </sql>
+
+    <select id="pageList" resultMap="ListMap" parameterType="com.ljcx.platform.dto.TaskDto">
+        select a.id,a.name,d1.name typeName,a.create_time,a.complete_status,t.`name` teamName,a.team_id,a.memo,a.type
+        from ljcx_task a
+        left join sys_dic_desc d1 on d1.id = a.type and d1.code = 'TASK_TYPE'
+        left join ljcx_team_info t on t.id = a.team_id
+        <where>
+            <if test="item.key != null and item.key != '' ">
+                and LOCATE(#{item.key},a.name) > 0
+            </if>
+            <if test="item.teamId != null">
+                and a.team_id = #{item.teamId}
+            </if>
+            <if test="item.name != null and item.name != '' ">
+                and a.name like concat('%',#{item.name},'%')
+            </if>
+            <if test="item.type != null">
+                and a.type = #{item.type}
+            </if>
+            <if test="item.preCreateTime != null and item.preCreateTime != '' and item.nextCreateTime != '' and item.nextCreateTime != '' ">
+                and a.create_time between #{item.preCreateTime} and #{item.nextCreateTime}
+            </if>
+            <if test="item.completeStatus != null">
+                and a.complete_status = #{item.completeStatus}
+            </if>
+            and a.is_delete = 1
+        </where>
+        order by a.create_time desc
+    </select>
+
+    <select id="info" resultMap="BeanMap" parameterType="java.lang.Long">
+        select a.id task_id,a.name,a.type,d1.name typeName,a.create_time,a.complete_status,t.`name` teamName,a.team_Id,u.nickname userName
+        from ljcx_task a
+        left join sys_dic_desc d1 on d1.id = a.type and d1.code = 'TASK_TYPE'
+        left join ljcx_team_info t on t.id = a.team_id
+        left join account_user_base u on u.id = a.create_user
+        where a.id = #{id}
+    </select>
+
+    <select id="infoBean" resultType="com.ljcx.platform.vo.TaskVo" parameterType="java.lang.Long">
+        select a.id task_id,a.name,a.type,d1.name typeName,a.create_time,a.complete_status,t.`name` teamName,a.team_Id,u.nickname userName
+        from ljcx_task a
+        left join sys_dic_desc d1 on d1.id = a.type and d1.code = 'TASK_TYPE'
+        left join ljcx_team_info t on t.id = a.team_id
+        left join account_user_base u on u.id = a.create_user
+        where a.id = #{id}
+    </select>
+
+    <!--统计-->
+    <!--任务完成分组-->
+    <select id="groupByCompleteStatus" resultType="com.ljcx.platform.vo.MapVo" parameterType="java.lang.Long">
+        select (case complete_status when 0 then 'not_ok' else 'ok' end ) `name`,count(1) `value` from ljcx_task
+        where team_id = #{teamId} and is_delete =1
+        group by complete_status
+    </select>
+
+    <!--任务类型分组-->
+    <select id="groupByType" resultType="com.ljcx.platform.vo.MapVo" parameterType="java.lang.Long">
+        select a.`name`,count(b.id) `value` from sys_dic_desc a
+        left join ljcx_task b on a.id = b.type and a.code = 'TASK_TYPE' and b.team_id = #{teamId} and b.is_delete = 1
+        GROUP BY a.id,a.`name`
+        order by a.id asc
+    </select>
+
+    <!--任务飞行时长分组-->
+    <select id="groupByFlightHours" resultType="com.ljcx.platform.vo.MapVo" parameterType="java.lang.Long">
+        select case INTERVAL(flight_hours,5,10,15,20,25,30,35,9999999)
+				when 0 then 'i_0' when 1 then 'i_1' when 2 then 'i_2' when 3 then 'i_3'
+			  when 4 then 'i_4' when 5 then 'i_5' when 6 then 'i_6' when 7 then 'i_7'	else 'i_8' end `name`
+				,count(id) `value`  from
+        (select a.id,ifnull(ROUND(sum(flight_seconds)/3600,2),0) flight_hours from ljcx_task a
+        left join ljcx_task_records b on a.id = b.task_id
+        where a.team_id = #{teamId} and a.is_delete = 1
+        group by a.id ) a
+        GROUP BY `name`
+        order by `name` asc
+    </select>
+
+    <!--任务飞行总时长-->
+    <select id="totalFlightHours" resultType="java.lang.Double" parameterType="java.lang.Long">
+        select ifnull(ROUND(sum(flight_seconds)/3600,2),0) from ljcx_task a
+        left join ljcx_task_records b on a.id = b.task_id
+        where a.team_id = #{teamId} and a.is_delete = 1
+    </select>
+
+</mapper>

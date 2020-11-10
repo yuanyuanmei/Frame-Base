@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ljcx.platform.dao.TaskRecordsDao">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap id="BaseMap" type="TaskRecordsBean">
+    </resultMap>
+
+    <sql id="BaseColumns">
+id   ,task_id   ,plan_id   ,uav_id   ,uav_name   ,perform_user   ,start_time   ,end_time   ,flight_length   ,flight_seconds   ,is_delete      </sql>
+
+    <select id="pageList" resultType="TaskRecordsBean" parameterType="com.ljcx.platform.dto.TaskRecordsDto">
+        select
+        <include refid="BaseColumns"/>
+        from ljcx_task_records a
+        <where>
+            <if test="item.key != null and item.key != '' ">
+                and LOCATE(#{item.key},a.name) > 0
+            </if>
+            and a.is_delete = 1
+        </where>
+    </select>
+
+    <select id="listByTaskId" resultType="com.ljcx.platform.vo.TaskRecordsVo" parameterType="java.lang.Long">
+        select a.id,b.model,b.no,c.nickname,a.end_time,a.flight_seconds
+        from ljcx_task_records a
+        left join ljcx_uav_info b on a.uav_id = b.id
+        left join account_user_base c on c.id = a.perform_user
+        where a.task_id = #{taskId}
+    </select>
+
+    <select id="dataByPlanId" resultType="map" parameterType="java.lang.Long">
+        select count(1) task_num,ifnull(sum(flight_seconds),0) flightSumSeconds  from ljcx_task_records
+        where plan_id = #{planId}
+    </select>
+
+    <select id="dataByTaskId" resultType="map" parameterType="java.lang.Long">
+        select count(id) flightCount,ifnull(sum(flight_length),0) flightLength
+        ,ifnull(sum(flight_seconds),0) flightSumSeconds,ifnull(ROUND(avg(flight_seconds),0),0) flightAvgSeconds
+        from ljcx_task_records
+        where task_id= #{taskId}
+    </select>
+
+
+</mapper>

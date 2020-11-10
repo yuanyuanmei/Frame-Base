@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ljcx.api.dao.FlyAreaDao">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap id="BaseMap" type="FlyAreaBean">
+    </resultMap>
+
+    <sql id="BaseColumns">
+    id   ,category   ,coordinate   ,fly_zone_id   ,fly_zone_type   ,name   ,redius   ,reason   ,shape
+    ,vertices   ,parent_id   ,create_time, is_delete  ,maximum_flight_height
+    </sql>
+
+</mapper>

@@ -1,0 +1,59 @@
+package com.ljcx.user.enums;
+
+
+import org.apache.commons.collections.map.HashedMap;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+
+/**
+ * 飞行区域
+ */
+public enum PermsEnums {
+
+    DIR(0, "目录"),
+    MENU(1, "菜单"),
+    BUTTON(2,"按钮");
+
+
+    private final int code;
+    private final String value;
+
+    PermsEnums(int code, String value) {
+        this.code = code;
+        this.value = value;
+    }
+
+    public int getCode() {
+        return code;
+    }
+
+    public String getValue() {
+        return value;
+    }
+
+    //枚举的变量必须为static静态
+    public static List<PermsEnums> list = Arrays.asList(values());
+
+    //获得map集合
+    public static List<Map> mapList() {
+        List<Map> mapList = new ArrayList<>();
+        Arrays.asList(values()).stream().forEach(item ->{
+            Map<String,Object> map = new HashedMap();
+            map.put("id",item.code);
+            map.put("name",item.value);
+            mapList.add(map);
+        });
+        return mapList;
+    }
+
+    public static String codeOf(int code){
+        List<PermsEnums> collect = list.stream().filter(item -> item.code == code).collect(Collectors.toList());
+        String value = collect.size() > 0 ? collect.get(0).getValue() : "";
+        return value;
+    }
+
+}

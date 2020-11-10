@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<!--<html  xmlns:th="http://www.thymeleaf.org" lang="en">-->
+<div th:fragment="loadjs">
+    <script type="text/javascript" src="static/js/jquery.min.js" th:src="@{/static/js/jquery.min.js}"></script>
+    <!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
+    <!--[if lt IE 9]>
+    <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
+    <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <script th:src="@{/static/admin/js/common/ajax.util.js}" type="text/javascript"></script>
+    <script th:src="@{/static/admin/js/common/common_config.js}" type="text/javascript"></script>
+    <!-- <link rel="stylesheet" href="./css/theme5.css"> -->
+    <script src="static/lib/layui/layui.js" charset="utf-8" th:src="@{/static/lib/layui/layui.js}"></script>
+    <script type="text/javascript" src="static/js/xadmin.js" th:src="@{/static/js/xadmin.js}"></script>
+
+</div>

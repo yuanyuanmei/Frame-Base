@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ljcx.code.dao.TeamInfoDao">
+
+    <resultMap id="BaseMap" type="TeamInfoBean">
+
+    </resultMap>
+    <sql id="BaseColumns">
+        id,user_id,name,memo,room_id,create_user,create_time,is_delete,im_group_id,im_group_name,pid,path
+    </sql>
+
+    <select id="pageList" resultType="com.ljcx.code.vo.TeamInfoVo">
+        select a.id,a.name,b.nickname,a.create_time,a.user_id,a.memo,a.pid,a.path,p.name pname, p.path parent_path,a.room_id
+        from ljcx_team_info a
+        left join account_user_base b on a.user_id = b.id
+        left join ljcx_team_info p on p.id = a.pid
+        <where>
+        <if test="item != null">
+            <if test="item.key != null and item.key != '' ">
+                and LOCATE(#{item.key},a.name) > 0
+            </if>
+            <if test="item.id != null and item.id > 0">
+                and a.path like CONCAT('/',#{item.id},'%')
+            </if>
+            <if test="item.pid != null ">
+                and a.pid = #{item.pid}
+            </if>
+        </if>
+        <!--添加权限-->
+        <if test="currentUser.type != 1" >
+            <if test="currentUser.id != null">
+                and a.user_id = #{currentUser.id}
+            </if>
+        </if>
+        and a.is_delete = 1
+        </where>
+    </select>
+
+    <!--设备数量-->
+    <select id="equmentCount" resultType="com.ljcx.code.vo.EqumentCountVo" parameterType="java.lang.Long">
+        select m_type `type`, count(m_id) `count` from ljcx_team_relationship
+        where team_id in
+        <foreach collection="teamIds" open="(" close=")" separator="," item="teamId">
+            #{teamId}
+        </foreach>
+        group by m_type
+    </select>
+
+    <!--用户团队列表-->
+    <select id="teamIdsByUserId" resultType="java.lang.Long" parameterType="java.lang.Long">
+        select team_id from ljcx_team_relationship where m_id = #{userId} and m_type = 3
+    </select>
+
+    <!--团队下属列表-->
+    <select id="teamDownList" resultType="java.lang.Long" parameterType="java.lang.Long">
+        select id from ljcx_team_info where path like CONCAT('/',#{teamId},'%')
+    </select>
+
+    <insert id="bindTeam" >
+        insert IGNORE into ljcx_team_relationship(team_id,m_id,m_type,create_user)
+        values
+        <foreach collection="item.mIds" separator="," item="mId">
+            (#{item.id},#{mId},#{item.mType},#{item.createUser})
+        </foreach>
+    </insert>
+
+    <delete id="cancelTeam" >
+        delete from ljcx_team_relationship where
+        team_id = #{item.id}
+        and m_type = #{item.mType} and m_id in
+        <foreach collection="item.mIds" separator="," item="mId" open="(" close=")">
+            #{mId}
+        </foreach>
+    </delete>
+
+    <delete id="delRelationShipByMid">
+        delete from ljcx_team_relationship where
+        m_id =#{mId} and m_type = #{mType}
+    </delete>
+
+    <!--团队下属列表-->
+    <select id="teamEqumentCount" resultType="java.lang.Integer" parameterType="java.lang.Long">
+        select count(1) from ljcx_team_relationship where team_id = #{teamId};
+    </select>
+</mapper>

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ljcx.api.dao.SceneReportDao">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap id="BaseMap" type="com.ljcx.api.vo.SceneReportVo">
+        <collection property="files" ofType="SysFileBean" column="report_id"
+                    select="com.ljcx.framework.sys.dao.SysFileDao.listByReportId"/>
+    </resultMap>
+
+
+
+    <sql id="BaseColumns">
+id    report_id,content   ,lng   ,lat   ,address   ,create_user   ,create_time   ,is_delete,team_id
+</sql>
+
+    <select id="pageList" resultMap="BaseMap" parameterType="com.ljcx.api.dto.SceneReportDto">
+        select
+        a.id report_id,a.content,a.lng,a.lat,a.address,a.create_user,b.nickname,a.create_time
+        from ljcx_scene_report a
+        left join account_user_base b on a.create_user = b.id
+        <where>
+            <if test="item.key != null and item.key != '' ">
+                and LOCATE(#{item.key},a.content) > 0
+            </if>
+            <if test="item.createTime != null ">
+                and a.create_time = #{item.createTime}
+            </if>
+            <!--添加权限-->
+            <if test="item.teamId != null">
+                and a.team_id in ( SELECT t2.id FROM ljcx_team_info t1,ljcx_team_info t2 WHERE t1.id= #{item.teamId} AND t2.path like concat(t1.path,'%') )
+            </if>
+            and a.is_delete = 1
+        </where>
+        order  by a.create_time desc
+    </select>
+</mapper>

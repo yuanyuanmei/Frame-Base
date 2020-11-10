@@ -1,0 +1,54 @@
+
+
+<!DOCTYPE html>
+
+<head>
+  <title>播放</title>
+
+  <meta name="keywords" content="keyword1,keyword2,keyword3">
+  <meta name="description" content="this is my page">
+  <meta name="content-type" content="text/html; charset=GBK">
+
+
+  <!--[if lt IE 9]>
+  <script src="//imgcache.qq.com/open/qcloud/video/vcplayer/libs/es5-shim.js" charset="utf-8"></script>
+  <script src="//imgcache.qq.com/open/qcloud/video/vcplayer/libs/es5-sham.js" charset="utf-8"></script>
+  <![endif]-->
+  <script src="http://imgcache.qq.com/open/qcloud/video/vcplayer/TcPlayer-2.3.2.js" charset="utf-8"></script>
+
+</head>
+
+<body>
+<div id="video-container" style="width:100%; height:auto;"></div>
+<script type="text/javascript">
+
+  var options = {
+    m3u8:"http://play.lamjiang.com/live/room3435.m3u8",
+    flv:'http://play.lamjiang.com/live/room3435.flv',
+    rmtp:"rtmp://play.lamjiang.com/live/room3435",
+    //flash:true,
+    //flashUrl:'static/libs/QCPlayer.swf',
+    autoplay: true, //是否自动播放
+    controls:"none", //default 显示默认控件，none 不显示控件
+    live: true,	//设置视频是否为直播类型，将决定是否渲染时间轴等控件，以及区分点直播的处理逻辑
+    width:  '800',
+    height: '640',
+    wording: {
+      2032: "请求视频失败，请检查网络",
+      2048: "请求m3u8文件失败，可能是网络错误或者跨域问题"
+    },
+    listener: function (msg) {
+      if(msg.type == 'load') {
+        var _div = document.createElement('div');
+        _div.className = 'marker';
+        _div.innerText = '测试';
+        document.querySelector('.vcp-player').appendChild(_div)
+      }
+    }
+  };
+
+  var player = new TcPlayer('video-container', options);
+  window.qcplayer = player;
+</script>
+</body>
+</html>

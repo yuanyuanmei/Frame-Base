@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ljcx.api.dao.UavInfoDao">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap id="BaseMap" type="com.ljcx.api.vo.UavInfoVo">
+        <result column="uav_id" property="id" />
+    </resultMap>
+
+    <sql id="BaseColumns">
+        id uav_id  ,`no`,`model`,`name`  ,create_user   ,create_time , is_delete
+    </sql>
+
+    <select id="pageList" resultType="UavInfoBean" parameterType="com.ljcx.api.dto.UavInfoDto">
+        select
+        a.id,a.name,a.create_time
+        from ljcx_uav_info a
+        <where>
+            <if test="item.key != null and item.key != '' ">
+                and LOCATE(#{item.key},a.name) > 0
+            </if>
+            <if test="item.teamId != null">
+                <if test="item.type == 'query'">
+                    and a.id in (select m_id from ljcx_team_relationship where team_id = #{item.teamId} and m_type = 1)
+                </if>
+                <if test="item.type == 'add'">
+                    and a.id not in (select m_id from ljcx_team_relationship where team_id = #{item.teamId} and m_type = 1)
+                </if>
+            </if>
+            and is_delete =1
+        </where>
+    </select>
+
+    <select id="listByTeamId" resultMap="BaseMap" parameterType="java.lang.Long">
+        select <include refid="BaseColumns"/>
+        from ljcx_uav_info a
+        <where>
+            and a.id in (select m_id from ljcx_team_relationship where team_id = #{teamId} and m_type = 1)
+            and a.is_delete = 1
+        </where>
+    </select>
+
+
+</mapper>

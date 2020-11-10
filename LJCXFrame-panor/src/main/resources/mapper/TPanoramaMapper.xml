@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ljcx.panor.dao.TPanoramaDao">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap id="BaseMap" type="com.ljcx.panor.vo.PanorVo">
+    </resultMap>
+
+    <sql id="BaseColumns">
+  pano_id   ,pano_title   ,pano_url   ,pano_thumb   ,pano_address   ,lon   ,lat   ,user_id   ,views_number   ,createdate,pano_title_en,pano_address_en      </sql>
+
+    <select id="pageList" resultMap="BaseMap" parameterType="com.ljcx.panor.dto.TPanoramaDto">
+        select a.pano_id,pano_title,pano_url,pano_thumb,pano_address,lon,lat,createdate, a.views_number,IFNULL(b.id,0) collectId,pano_title_en,pano_address_en
+        from t_panorama a
+        left join ref_user_pano b on a.pano_id = b.pano_id and b.user_id = #{item.loginUser}
+        <where>
+            <if test="item.key != null and item.key != '' ">
+                and LOCATE(#{item.key},a.pano_title) > 0
+            </if>
+            <if test="item.userId != null">
+                and a.pano_id in ( select pano_id from ref_user_pano where user_id = #{item.userId} )
+            </if>
+        </where>
+    </select>
+</mapper>
